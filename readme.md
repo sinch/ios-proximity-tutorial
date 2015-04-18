@@ -1,4 +1,4 @@
-```objectivec
+```objective-c
 
 © Zac Brown 2015
 
@@ -29,17 +29,18 @@ First add the Parse framework from your downloads folder (or from wherever you m
 * libsqlite3.dylib
 
 You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
-
+			```objective-c
 			#import <Parse.Parse.h>
-
+			```
 That will import the framework and now you can use it in the Appdelegate, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
-
+		```objective-c
 		[Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
+		```
 
 This code simply initialises parse with your individual application ID’s, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions is your first and best chance at initialising these third party frameworks.
 
 Now navigate to loginViewController.m where we will get to work on implementing Parse login. Once again import the parse framework into the file. Add this code to the login method already in place (the IBAction method is connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
-
+	```objective-c
 	@implementation loginViewController {
     BOOL loggedIn; 
     }
@@ -66,7 +67,7 @@ Now navigate to loginViewController.m where we will get to work on implementing 
 	}
 	@end
 
-
+	```
 Here you can see I’ve added a loggedIn BOOL to the instance variables of the class which is used to determine wether the login was successful when shouldPerformSegueWithIdentifier is called. Besides that I’ve just followed Parse’s login protocol as outlined in their docs, as this is a tutorial I will briefly explain what’s going on. 
 
 For simplicity I’ve created some local NSStrings which relate to the text from the two textField properties as outlined in the .h file. From those I’ve called PFUser login, inputted the two variables and then used a block to determine the outcome. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error we set loggedIn to no and display an alert but if it’s successful we set loggedIn to YES and go ahead and call for a segue. 
@@ -76,11 +77,11 @@ Moving on!
 At the moment users can login and be presented with the newFriends view controller but it isn't currently possible for them to sign up, it's time to back-track and add some sign-up functionality. 
 
 Head on over to signUpViewController.m and once again import the parse framework.
-
+	```objective-c
 	#import <Parse/Parse.h>
-
+	```
 Now we will add some methods that are very similar to what we did in the login view controller, once again I’ve created some local NSString’s that are local copies of the text extracted from the username, password, screen name and age textfields.
-
+	```objective-c
 	@implementation signUpViewController{
     BOOL signedUp; 
     }
@@ -114,25 +115,25 @@ Now we will add some methods that are very similar to what we did in the login v
     	}
 	}
 	@end
-
+	```
 It’s good practice to run the code in the iOS simulator after each new feature is added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added a new feature or you could end up finishing a project and spending a great deal of time looking for the bugs!
 
 After testing this you will already recognise a small issue, although there’s nothing wrong with the code you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless they keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
 
 Add this method into both the loginViewController and signupViewController implementation files.
-
+	```objective-c
 	- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view endEditing:YES];
     return YES;
 	}
-
+	```
 Go ahead and test this, you will find that it won’t work but there’s an easy fix to this! You need to set the delegate of the text fields to self, this is an example from the login view controller.
-
+	```objective-c
 	- (void)viewWillAppear:(BOOL)animated {
     _usernameField.delegate = self;
     _passwordField.delegate = self;
 	}
-	
+	```
 I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of parse into our project later on in the tutorial. 
 
 Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
@@ -142,18 +143,18 @@ Although we can login and signup at this point, there isn’t much else we can d
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
 
 The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework, like this
-
+	```objective-c
 	#import <MultipeerConnectivity/MultipeerConnectivity.h>
-
+	```
 First we need to create some properties in the interface section of newFriends.m as you can see here
-
+	```objective-c
 	@interface newFriends ()
 	@property (nonatomic, retain) MCAdvertiserAssistant *advertiserAssistant;
 	@property (nonatomic, retain) MCSession *session;
 	@property (nonatomic, retain) MCPeerID *peerId;
 	@property (nonatomic, retain) MCBrowserViewController *browserViewController;
 	@end
-
+	```
 Here’s a quick run-down of what each property is used for
 MCAdvertiserAssistant
 Makes your device visible to others whilst also managing incoming connections.
@@ -168,12 +169,16 @@ MCBrowserViewController
 A view controller provided by apple which will present a list of nearby users.
 
 At this point you will need to head over to the newFriend.h file and set this class as a delegate for the MCBrowserViewController and MCSession. This can be achieved by modifying the following line from this 
-
+	```objective-c
+	
 	@interface newFriends : UITableViewController
 	
+	```
 To this
-
+	```objective-c
+	```
 	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, 		MCSessionDelegate>
+	
 	
 Easy! (all we're doing is saying that the newFriends class conforms to the delegate protocol)
 
@@ -181,60 +186,66 @@ Now you will see a heap of new warnings to let us know that we haven’t yet imp
 
 Here’s all the delegate methods we need to implement with a brief description of each below.
 
-		
+	```objective-c
 	- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{  
 	
 	}
+	```
+	
 
 Called when the users device changes state, either connects/disconnects 				from a peer or when a peer connects to the user
-			
-	- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID { 
+	```objective-c
+	
+	- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:	(MCPeerID *)peerID { 
 	
 	}
-
+	```
+	
 Called when the device receives data from a peer
 
-			
+	```objective-c
 	- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID {
 	
 	}
+	```
 
 Called when the device receives a stream from a peer.
 
-		
+	```objective-c
 	- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress {
 	
 	}
-
+	```
 
 Called when the device receives something from a peer
 			
 
 
-			
+	```objective-c
 	- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString 	*)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError 	*)error { 
 	
 	}
-
+	```
 Called when the device has finished receiving a resource
 
-			
+	```objective-c
 	- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController {
 	}
-
+	```
 Called when the user chooses a peer to connect to
-			
+	```objective-c
+	
 	- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController { 
 	
 	}
-
+	```
 Called when the user cancels the MCBrowserViewController
 
 
 
 
 Whilst still in newFriends.m add this method above the delegate methods.
-
+	```objective-c
 	- (void)setUpConnection {
     PFUser *user = [PFUser currentUser];
     NSString *screenName = [user objectForKey:@"screenName"];
@@ -244,32 +255,34 @@ Whilst still in newFriends.m add this method above the delegate methods.
     _peerId = [[MCPeerID alloc] initWithDisplayName:displayName];
     NSLog(@"PeerId = %@", _peerId);
 	}
-	
+	```
 Here we get the current PFUser object from parse and from that we get the screenName as set by the user when s, instead of displaying the device name we can display the users name which is far more personalised and can be changed as different users login. We then set the peerId display name equal to our screenName variable.
 
 We now need to go ahead and create a session, add this code to the bottom of the method we created above.
-
+		```objective-c
 	  self.session = [[MCSession alloc] initWithPeer:self.peerId];
     		 self.session.delegate = self;
+    		 ```
 
 Here we’re simply using the session property we created in the @interface of the file, allocating and calling initWithPeer and using the peerId we previously created. Then we go ahead and set the delegate equal to self so that we’re able to get information from the session.
 
 There’s one last step to finish off this method, we need to put everything together and create a browserViewController. Here’s how simple it is!
-
+	```objective-c
 		self.browserViewController = [[MCBrowserViewController alloc] 							initWithServiceType:@"sinchMulti" session:self.session];
        self.browserViewController.delegate = self;
-
+	```
 We’ve allocated and called initWithService, we’ve used the name sinchMulti for this project, then we’ve simply gone ahead and set the session equal to the session we created earlier. Once again we’ve set the delegate to self so we can be informed of what’s going on.
 
 Although now we can find other users there’s one thing we’ve forgotten, it isn’t much fun if people can’t find us is it? Let’s go ahead and make our device discoverable, for this we need to use the advertiserAssistant. Once again we’re going to add it on to the bottom of the setUpConnection method.
-
+	```objective-c
 	self.advertiserAssistant = [[MCAdvertiserAssistant alloc] 						initWithServiceType:@"sinchMulti" discoveryInfo:nil session:self.session];
     [self.advertiserAssistant start];
-    
+    ```
 This is some really simple code, once again we’re allocating and calling initWithService which we did earlier, we’ve set the discoverInfo to nil and yet again we’ve associated our session we already created with the advertiserAssistant. The last line of code is probably the easiest part of this tutorial and I think it’s pretty self explanatory :P
 
 The finished setUpConnection method should look like this.
-
+	```objective-c
+	
 		- (void)setUpConnection {
     PFUser *user = [PFUser currentUser];
     NSString *screenName = [user objectForKey:@"screenName"];
@@ -284,14 +297,16 @@ The finished setUpConnection method should look like this.
 	self.advertiserAssistant = [[MCAdvertiserAssistant alloc] 						initWithServiceType:@"sinchMulti" discoveryInfo:nil 	session:self.session];
     [self.advertiserAssistant start];
 	}
-
+	
+	```
 This code is looking pretty good, there’s only one small problem. Can you see it? If you said this code isn’t being executed because nowhere in the code has it been called you’re correct! It’s best to call this method from viewDidLoad, as I mentioned earlier it’s a given that this method is going to be called.
-
+		```objective-c
+		
 		- (void)viewDidLoad {
     			[self setUpConnection];
     			
 		}
-		
+		```
 As you can probably see there's an error relating to the username property not being declared, go ahead and declare it in the @interface of newFriends.m, make it of type NSString and weak/nonatomic. This property will be used throughout the software so it's best to have it globally accessible. 
 
 We’ve made some good progress but currently there’s no way to present the browserViewController, we’ve included a + bar button in the template file and connected an action to it. In the method simply include this code to present the browserViewController when the button is triggered.

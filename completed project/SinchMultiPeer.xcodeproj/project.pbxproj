@@ -35,6 +35,7 @@
 		B0AE574C1AC931300013E36A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0AE574A1AC931300013E36A /* LaunchScreen.xib */; };
 		B0AE57581AC931300013E36A /* SinchMultiPeerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AE57571AC931300013E36A /* SinchMultiPeerTests.m */; };
 		B0D60A4F1AD7E41400BD42FE /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D60A4E1AD7E41400BD42FE /* MultipeerConnectivity.framework */; };
+		E4386A2C18D898B715C76BB6 /* libPods-SinchMultiPeer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD67C19BA4979E63F38FAB /* libPods-SinchMultiPeer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,9 @@
 		B0AE57561AC931300013E36A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0AE57571AC931300013E36A /* SinchMultiPeerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinchMultiPeerTests.m; sourceTree = "<group>"; };
 		B0D60A4E1AD7E41400BD42FE /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		C3FD67C19BA4979E63F38FAB /* libPods-SinchMultiPeer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SinchMultiPeer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE62F80812D724971DE1EF1D /* Pods-SinchMultiPeer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SinchMultiPeer.release.xcconfig"; path = "Pods/Target Support Files/Pods-SinchMultiPeer/Pods-SinchMultiPeer.release.xcconfig"; sourceTree = "<group>"; };
+		FB5D0046D6F978AEBAFA3F4D /* Pods-SinchMultiPeer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SinchMultiPeer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SinchMultiPeer/Pods-SinchMultiPeer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,7 @@
 				B076A9691ACA04C800E568A0 /* Parse.framework in Frameworks */,
 				B076A96A1ACA04C800E568A0 /* Sinch.framework in Frameworks */,
 				B076A9681ACA04C800E568A0 /* Bolts.framework in Frameworks */,
+				E4386A2C18D898B715C76BB6 /* libPods-SinchMultiPeer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +128,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90320C8EB589D1745CF641AD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FB5D0046D6F978AEBAFA3F4D /* Pods-SinchMultiPeer.debug.xcconfig */,
+				EE62F80812D724971DE1EF1D /* Pods-SinchMultiPeer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B076A96B1ACA04CD00E568A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +156,7 @@
 				B076A9651ACA04C800E568A0 /* Bolts.framework */,
 				B076A9661ACA04C800E568A0 /* Parse.framework */,
 				B076A9671ACA04C800E568A0 /* Sinch.framework */,
+				C3FD67C19BA4979E63F38FAB /* libPods-SinchMultiPeer.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,6 +168,7 @@
 				B0AE573A1AC931300013E36A /* SinchMultiPeer */,
 				B0AE57541AC931300013E36A /* SinchMultiPeerTests */,
 				B0AE57391AC931300013E36A /* Products */,
+				90320C8EB589D1745CF641AD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -223,9 +239,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0AE575B1AC931300013E36A /* Build configuration list for PBXNativeTarget "SinchMultiPeer" */;
 			buildPhases = (
+				895A27739ED821A9D177BA5B /* Check Pods Manifest.lock */,
 				B0AE57341AC931300013E36A /* Sources */,
 				B0AE57351AC931300013E36A /* Frameworks */,
 				B0AE57361AC931300013E36A /* Resources */,
+				723FAC87C7776EE4298C3E2C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -310,6 +328,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		723FAC87C7776EE4298C3E2C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SinchMultiPeer/Pods-SinchMultiPeer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		895A27739ED821A9D177BA5B /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B0AE57341AC931300013E36A /* Sources */ = {
@@ -443,6 +494,7 @@
 		};
 		B0AE575C1AC931300013E36A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB5D0046D6F978AEBAFA3F4D /* Pods-SinchMultiPeer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -462,6 +514,7 @@
 		};
 		B0AE575D1AC931300013E36A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE62F80812D724971DE1EF1D /* Pods-SinchMultiPeer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (

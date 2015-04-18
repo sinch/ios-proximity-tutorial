@@ -29,11 +29,15 @@ First add the Parse framework from your downloads folder (or from wherever you m
 * libsqlite3.dylib
 
 You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
+
 			```objective-c
 			#import <Parse.Parse.h>
+			
 			```
 That will import the framework and now you can use it in the Appdelegate, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
+
 		```objective-c
+		
 		[Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
 		```
 

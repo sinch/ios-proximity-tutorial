@@ -7,42 +7,16 @@
 //
 
 #import "newFriends.h"
-#import <Parse/Parse.h>
-#import "friend.h"
+
 
 @interface newFriends ()
-@property (nonatomic, retain) MCAdvertiserAssistant *advertiserAssistant;
-@property (nonatomic, retain) MCSession *session;
-@property (nonatomic, retain) MCPeerID *peerId;
-@property (nonatomic, retain) MCBrowserViewController *browserViewController;
-@property (nonatomic, retain) NSMutableArray *friends;
-@property (nonatomic, retain) NSString *username;
-@property (nonatomic, weak) callScreen *theNewCallScreen;
-@property (nonatomic, weak) incomingCall *theIncomingCallScreen;
-@property (nonatomic, weak) NSString *remoteUserId;
+
 @end
 @implementation newFriends {
-    id<SINClient> _client;
-    id<SINCall> _call;
+    
 }
-- (void)answer {;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    _theNewCallScreen = (callScreen *)[storyboard instantiateViewControllerWithIdentifier:@"callScreen"];
-    [_theNewCallScreen setDelegate:self];
-    [self presentViewController:_theNewCallScreen animated:YES completion:nil];
-    _theNewCallScreen.statusLabel.text = @"Connected";
-    _theNewCallScreen.nameOfFriendLabel.text = _remoteUserId;
-}
-- (void)decline {
-    [_call hangup];
-}
-- (void)hangUp {
-    [_call hangup];
-    if (_call == nil) {
-        NSLog(@"Call = nil");
-    }
-    [_theNewCallScreen dismissViewControllerAnimated:YES completion:nil];
-}
+
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -89,9 +63,9 @@
 //
 - (void)viewDidLoad {
     _friends = [[NSMutableArray alloc] init];
-    friend *friendz = [[friend alloc] init];
     
     //adding of test friend
+    friend *friendz = [[friend alloc] init];
     friendz.name = @"zac";
     friendz.age = 12;
     [_friends addObject:friendz];

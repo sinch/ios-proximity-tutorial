@@ -202,9 +202,9 @@ At this point you will need to head over to the newFriend.h file and set this cl
 ```
 
 To this
-	```objective-c
+```objective-c
 	
-	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, 		MCSessionDelegate>
+	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, MCSessionDelegate>
 	
 ```
 	

@@ -224,6 +224,7 @@ Here’s all the delegate methods we need to implement with a brief description 
 	
 
 Called when the users device changes state, either connects/disconnects 				from a peer or when a peer connects to the user
+
 ```objective-c
 	
 	- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:	(MCPeerID *)peerID { 
@@ -253,7 +254,8 @@ Called when the device receives a stream from a peer.
 ```
 
 Called when the device receives something from a peer
-	```objective-c
+
+```objective-c
 	
 	- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString 	*)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError 	*)error { 
 	
@@ -269,6 +271,7 @@ Called when the device has finished receiving a resource
 ```
 
 Called when the user chooses a peer to connect to
+
 	```objective-c
 	
 	- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController { 
@@ -283,6 +286,7 @@ Called when the user cancels the MCBrowserViewController
 
 
 Whilst still in newFriends.m add this method above the delegate methods.
+
 ```objective-c 
 
 	- (void)setUpConnection {

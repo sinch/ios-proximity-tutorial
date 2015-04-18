@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MultipeerConnectivity/MultipeerConnectivity.h>
-#import <Sinch/Sinch.h>
-#import "callScreen.h"
-#import "incomingCall.h"
-@interface newFriends : UITableViewController <UITableViewDataSource, UITableViewDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, SINCallClientDelegate, SINCallDelegate, callScreenDelegate, IncomingCallDelegate>
+
+@interface newFriends : UITableViewController
 
 @end

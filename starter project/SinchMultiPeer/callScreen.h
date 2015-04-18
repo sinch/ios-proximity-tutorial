@@ -8,15 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol callScreenDelegate <NSObject>
 
-- (void)hangUp;
-
-@end
 
 @interface callScreen : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *nameOfFriendLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
-@property (nonatomic, weak)  id<callScreenDelegate>delegate;
+
 @end

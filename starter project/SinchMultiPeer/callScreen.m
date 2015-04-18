@@ -10,7 +10,7 @@
 
 @implementation callScreen
 - (IBAction)hangUp:(id)sender {
-    [self.delegate hangUp];
+    
 }
 
 @end

@@ -556,7 +556,9 @@ Now we need to initiate the Sinch client, in viewDidLoad call [self setupSinch];
 
 		id<SINClient>_client;
 ```
+
 Now we can finish off the setupSinch method.
+
 ```objective-c
 
 	- (void)setupSinch {
@@ -723,29 +725,37 @@ Head over to the .m counterpart and implement the hangUp method. There’s two t
 Hanging up the call is easy as! From there we simply call dismissViewController on theNewCallScreen so that we’re back to our table view controller. 
 
 As amazing as all this is, there’s one thing that we can’t do and it severely limited our application. Now it’s time to put the icing on the cake by allowing users to answer calls. Add the following method to newFriends.m
+```objective-c
 
 		- (void)client:(id<SINCallClient>)client didReceiveIncomingCall:(id<SINCall>)call 	{
     
 	}
-	
+```
 Before we implement the rest of the code to make the magic happen there’s some groundwork to cover. For this we will need to #import incomingCall.h, we’ve been nice enough to create the class and connect it to the relevant storyboard for you already!
 
 When there’s an incoming call we’re going to present the incomingCall view controller, from there the user will be given the option to either answer or decline the call. The answer and decline function will once again be implemented using delegates, if a user chooses to answer a call we will go ahead and present the callScreen!
 
 Within didReceiveIncomingCall let’s add the necessary code to present the incomingCall screen. 
+```objective-c
 
 	- (void)client:(id<SINCallClient>)client didReceiveIncomingCall:(id<SINCall>)call {
     		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     			_theIncomingCallScreen = (incomingCall *)[storyboard 								instantiateViewControllerWithIdentifier:@"incomingCall"];
     			[self presentViewController:_theIncomingCallScreen animated:YES 					completion:nil];
 		}
+```
 
 We’ve done this all before so no explanation necessary. At the top of this method we want to set our call delegate and set the call property equal to our incoming call, add this above the storyboard declaration. 
 
+```objective-c
+
 		call.delegate = self;
     		_call = call;
+```
 
 We can currently access the remoteUserId from the call object, but do we want to present the username or the persons name? Well it makes more sense to present the persons name if you ask me. Let’s use parse to find the corresponding name of a user given the username. Here’s the code to add in to the bottom of the didReceiveIncomingCall method. As you can see we haven’t previously declared remoteUserId so go ahead and create a property in the .m file of type NSString to store the name of the user that’s calling us.
+
+```objective-c
 
 		PFQuery *query = [PFQuery queryWithClassName:@"User"];
     		[query whereKey:@"username" equalTo:call.remoteUserId];
@@ -753,32 +763,40 @@ We can currently access the remoteUserId from the call object, but do we want to
         _remoteUserId = object[@"name"];
     		}];
     		_theIncomingCallScreen.nameLabel.text = _remoteUserId;
-    		
+ ```
 On the bottom line you can see we’re setting the name label on our incoming call screen view controller. 
 
 Now we’ve only got to implement the delegate methods to either accept or decline an incoming call. Head over to incomingCall.m and find the answer and decline methods. In the respective methods add these two calls to self.delegate.
+```objective-c
 
 	[self.delegate answerCall];
 	[self.delegate declineCall];
-	
+```
+
 Of course we haven’t yet implemented our protocol and delegate so we need to do that in our incomingCall.h file.
+```objective-c
 
 	@protocol IncomingCallDelegate <NSObject>
 	- (void)answer;
 	- (void)decline;
 	@end
+```
 
 Now add the delegate property to match the protocol in the @interface section of incomingCall.h
+```objective-c
 
 	@property (nonatomic, weak) id<IncomingCallDelegate> delegate;
+```
 
 We now need to make newFriends conform to the protocol, once again modify the @interface in newFriends.h.
+```objective-c
 
 	@interface newFriends : UITableViewController <UITableViewDataSource, 			UITableViewDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, 			SINCallClientDelegate, SINCallDelegate, callScreenDelegate, IncomingCallDelegate>
-
+```
 
 Now navigate to the .h file and implement both the answer and decline methods.
- 
+```objective-c
+
 	- (void)answer {;
     		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     		_theNewCallScreen = (callScreen *)[storyboard 								instantiateViewControllerWithIdentifier:@"callScreen"];
@@ -790,7 +808,7 @@ Now navigate to the .h file and implement both the answer and decline methods.
 	- (void)decline {
     		[_call hangup];
 	}
-	
+```	
 Once again we’ve done all this before so if you have any trouble working out what’s going on the best idea is to head back all look over past explanations. 
 
 That’s all for now folks!

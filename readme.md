@@ -1,5 +1,5 @@
 ```objectivec
-```
+
 © Zac Brown 2015
 
 Sinch(website link) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
@@ -662,7 +662,7 @@ There’s heaps that you can add to this project and I encourage you to do so.
 © Zac Brown 2015
 
 
-
+```
 
 
 

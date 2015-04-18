@@ -272,7 +272,8 @@ Called when the device has finished receiving a resource
 
 Called when the user chooses a peer to connect to
 
-	```objective-c
+
+```objective-c
 	
 	- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController { 
 	
@@ -281,8 +282,6 @@ Called when the user chooses a peer to connect to
 ```
 
 Called when the user cancels the MCBrowserViewController
-
-
 
 
 Whilst still in newFriends.m add this method above the delegate methods.

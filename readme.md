@@ -8,7 +8,9 @@ Today’s project will be to integrate Sinch into an iOS application which will 
 
 Here's a few screenshots of what we will be building!
 
-![My image](/images/1.png)![My image](/images/2.png)![My image](/images/3.png)![My image](/images/4.png)![My image](/images/5.png)
+![My image](/images/1.png)![My image](/images/2.png)
+![My image](/images/3.png)![My image](/images/4.png)
+![My image](/images/5.png)
 
 To complete this tutorial you will need some basic objective-c language knowledge, it's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
 

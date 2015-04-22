@@ -6,6 +6,9 @@ Sinch(website link) is the easiest way to integrate real-time instant messaging 
 
 Today’s project will be to integrate Sinch into an iOS application which will match users with other users nearby using Apple’s multipeer connectivity framework. This will be achieved by exchanging userId’s once a connection is established between two devices and then allowing those two users to call eachother anywhere and at any time using Sinch! This application will also utilise Parse as a means of managing users and storing some basic data.
 
+Here's a few screenshots of what we will be building!
+![alt tag](https://raw.github.com/sinch/ios-proximity-tutorial/images/1.png)
+
 To complete this tutorial you will need some basic objective-c language knowledge, it's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
 
 Just for some quick insight, here’s the basic concepts behind the multipeer connectivity framework. This framework utilises pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apples AirDrop platform is presumably built on none other than the multi peer framework!

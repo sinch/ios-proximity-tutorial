@@ -35,6 +35,7 @@ You’re now ready to start coding, navigate over to the AppDelegate.m file. Bel
 			#import <Parse.Parse.h>
 			
 ```
+
 That will import the framework and now you can use it in the Appdelegate, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
 
 ```objective-c
@@ -46,6 +47,7 @@ That will import the framework and now you can use it in the Appdelegate, now na
 This code simply initialises parse with your individual application ID’s, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions is your first and best chance at initialising these third party frameworks.
 
 Now navigate to loginViewController.m where we will get to work on implementing Parse login. Once again import the parse framework into the file. Add this code to the login method already in place (the IBAction method is connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
+
 ```objective-c
 
 	@implementation loginViewController {
@@ -202,6 +204,7 @@ At this point you will need to head over to the newFriend.h file and set this cl
 ```
 
 To this
+
 ```objective-c
 	
 	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, MCSessionDelegate>
@@ -353,7 +356,7 @@ The finished setUpConnection method should look like this.
 ```
 
 This code is looking pretty good, there’s only one small problem. Can you see it? If you said this code isn’t being executed because nowhere in the code has it been called you’re correct! It’s best to call this method from viewDidLoad, as I mentioned earlier it’s a given that this method is going to be called.
-		```objective-c
+```objective-c
 		
 		- (void)viewDidLoad {
     			[self setUpConnection];
@@ -367,6 +370,7 @@ As you can probably see there's an error relating to the username property not b
 We’ve made some good progress but currently there’s no way to present the browserViewController, we’ve included a + bar button in the template file and connected an action to it. In the method simply include this code to present the browserViewController when the button is triggered.
 
 ```objective-c
+
 	- (IBAction)findFriends:(id)sender {
     [self presentViewController:self.browserViewController animated:YES completion:nil];
     

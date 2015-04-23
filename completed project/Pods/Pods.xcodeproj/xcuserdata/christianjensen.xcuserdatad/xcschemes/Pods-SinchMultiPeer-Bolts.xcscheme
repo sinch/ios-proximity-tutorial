@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD484D95D58B8E18D9B5ADEF"
-               BuildableName = "libPods-SinchMultiPeer.a"
-               BlueprintName = "Pods-SinchMultiPeer"
+               BlueprintIdentifier = "3C29606D2A3CDB83C46021C9"
+               BuildableName = "libPods-SinchMultiPeer-Bolts.a"
+               BlueprintName = "Pods-SinchMultiPeer-Bolts"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

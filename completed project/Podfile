@@ -4,7 +4,6 @@
 target 'SinchMultiPeer' do
 pod 'SinchRTC', '~> 3.5'
 pod 'Parse', '~> 1.7'
-pod 'Bolts', '~> 1.1'
 end
 
 target 'SinchMultiPeerTests' do

@@ -1,16 +1,20 @@
 PODS:
-  - Bolts (1.1.4)
+  - Bolts (1.1.5):
+    - Bolts/AppLinks (= 1.1.5)
+    - Bolts/Tasks (= 1.1.5)
+  - Bolts/AppLinks (1.1.5):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.1.5)
   - Parse (1.7.1):
     - Bolts (~> 1.1)
   - SinchRTC (3.5.0)
 
 DEPENDENCIES:
-  - Bolts (~> 1.1)
   - Parse (~> 1.7)
   - SinchRTC (~> 3.5)
 
 SPEC CHECKSUMS:
-  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  Bolts: aac24961496d504aa56fc267cde95162a71bac39
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
   SinchRTC: f2477d7ee75770aa30d594b6d54450d95f106b4f
 

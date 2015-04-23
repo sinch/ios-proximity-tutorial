@@ -12,6 +12,7 @@
     BOOL signedUp;
 }
 - (void)viewDidLoad {
+    signedUp = NO;
     _usernameField.delegate = self;
     _passwordField.delegate = self;
     _screenName.delegate = self;
@@ -40,7 +41,11 @@
     }];
 }
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    return YES;
+    if (signedUp) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view endEditing:YES];

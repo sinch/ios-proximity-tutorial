@@ -27,6 +27,7 @@
 }
 
 - (void)answer {
+    //this method
     NSLog(@"ANSWER");
     [_call answer];
     [_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
@@ -40,6 +41,7 @@
 
 - (void)decline {
     [_call hangup];
+    //this
     [_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)hangUp {
@@ -47,6 +49,7 @@
     if (_call == nil) {
         NSLog(@"Call = nil");
     }
+    //this
     [_theNewCallScreen dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -67,16 +70,19 @@
     NSLog(@"Incoming call");
     call.delegate = self;
     _call = call;
+    /* remove this method
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"username" equalTo:call.remoteUserId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        _remoteUserId = object[@"screenName"];
+    }];
+     */
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
     _theIncomingCallScreen.delegate = self;
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
-    PFQuery *query = [PFQuery queryWithClassName:@"User"];
-    [query whereKey:@"username" equalTo:call.remoteUserId];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        _remoteUserId = object[@"name"];
-    }];
-    _theIncomingCallScreen.nameLabel.text = _remoteUserId;
+    
+    _theIncomingCallScreen.nameLabel.text = [NSString stringWithFormat:@"Call from %@", call.remoteUserId];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

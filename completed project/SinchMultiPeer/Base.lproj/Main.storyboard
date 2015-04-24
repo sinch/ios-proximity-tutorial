@@ -109,7 +109,7 @@
                                 <action selector="lout:" destination="pbU-rS-hYo" id="TwT-uj-63G"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="qBv-h2-cSE">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qBv-h2-cSE">
                             <connections>
                                 <action selector="findFriends:" destination="pbU-rS-hYo" id="Gcn-W8-2Ma"/>
                             </connections>

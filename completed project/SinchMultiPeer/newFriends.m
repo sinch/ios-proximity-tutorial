@@ -15,7 +15,7 @@
 @property (nonatomic, retain) MCSession *session;
 @property (nonatomic, retain) MCPeerID *peerId;
 @property (nonatomic, retain) MCBrowserViewController *browserViewController;
-@property (nonatomic, retain) NSMutableArray *friends;
+@property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, weak) callScreen *theNewCallScreen;
 @property (nonatomic, weak) incomingCall *theIncomingCallScreen;
@@ -40,6 +40,7 @@
 
 - (void)decline {
     [_call hangup];
+    [_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)hangUp {
     [_call hangup];

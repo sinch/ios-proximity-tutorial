@@ -25,7 +25,11 @@
     id<SINClient> _client;
     id<SINCall> _call;
 }
-- (void)answer {;
+
+- (void)answer {
+    NSLog(@"ANSWER");
+    [_call answer];
+    [_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theNewCallScreen = (callScreen *)[storyboard instantiateViewControllerWithIdentifier:@"callScreen"];
     [_theNewCallScreen setDelegate:self];
@@ -33,6 +37,7 @@
     _theNewCallScreen.statusLabel.text = @"Connected";
     _theNewCallScreen.nameOfFriendLabel.text = _remoteUserId;
 }
+
 - (void)decline {
     [_call hangup];
 }
@@ -58,10 +63,12 @@
     }
 }
 - (void)client:(id<SINCallClient>)client didReceiveIncomingCall:(id<SINCall>)call {
+    NSLog(@"Incoming call");
     call.delegate = self;
     _call = call;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
+    _theIncomingCallScreen.delegate = self;
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
     PFQuery *query = [PFQuery queryWithClassName:@"User"];
     [query whereKey:@"username" equalTo:call.remoteUserId];
@@ -89,13 +96,14 @@
 //
 - (void)viewDidLoad {
     _friends = [[NSMutableArray alloc] init];
+    /*
     friend *friendz = [[friend alloc] init];
     
     //adding of test friend
     friendz.name = @"zac";
     friendz.age = 12;
     [_friends addObject:friendz];
-    
+    */
     [self setUpConnection];
 
     [self setupSinch];
@@ -104,6 +112,7 @@
 
 
 - (void)setupSinch {
+    NSLog(@"Username = %@", _username);
     _client = [Sinch clientWithApplicationKey:@"de420ee2-a973-499e-9650-c7bbbf867081"
                 applicationSecret:@"Vzc1hkh/f0aRa6GOuNZrrg=="
                               environmentHost:@"sandbox.sinch.com"
@@ -160,10 +169,13 @@
     //create sinch chat with username
 }
 - (void)createFriend:(NSString *)username {
+    NSLog(@"Username = %@", username);
     friend *newFriend = [[friend alloc] init];
     newFriend.username = username;
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"User"];
-    [query whereKey:@"username" equalTo:newFriend.username];
+    NSLog(@"New friend username = %@", newFriend.username);
+    
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"username" equalTo:username];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (!error) {
             newFriend.name = [object objectForKey:@"screenName"];
@@ -171,6 +183,7 @@
         }
     }];
     [_friends addObject:newFriend];
+    [self.tableView reloadData];
 }
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID {
     
@@ -189,18 +202,18 @@
     [self.browserViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    friend *friendToCall = [_friends objectAtIndex:indexPath.row];
+    friend *friendToCall = [_friends objectAtIndex:0];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theNewCallScreen = (callScreen *)[storyboard instantiateViewControllerWithIdentifier:@"callScreen"];
     [_theNewCallScreen setDelegate:self];
     [self presentViewController:_theNewCallScreen animated:YES completion:nil];
     _theNewCallScreen.statusLabel.text = @"Calling...";
     _theNewCallScreen.nameOfFriendLabel.text = friendToCall.name;
+    NSLog(@"Friend to call username = %@", friendToCall.username);
     [self placeCall:friendToCall.username];
-    
 }
 - (void)placeCall:(NSString *)username {
-    _call = [_client.callClient callUserWithId:@"zac"];
+    _call = [_client.callClient callUserWithId:@"0000"];
     _call.delegate = self;
 }
 - (void)callDidProgress:(id<SINCall>)call {

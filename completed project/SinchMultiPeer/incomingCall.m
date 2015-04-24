@@ -12,6 +12,8 @@
 - (IBAction)answerCall:(id)sender {
     //delegate answer method
     [self.delegate answer];
+    
+    NSLog(@"Answer");
 }
 - (IBAction)declineCall:(id)sender {
     //delegate answer method

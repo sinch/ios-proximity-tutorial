@@ -89,6 +89,7 @@
     }
     friend *myFriend = _friends[indexPath.row];
     UILabel *label = (UILabel*)[cell viewWithTag:1001];
+    NSLog(@"Name of friend at cellforrow = %@", myFriend.name);
     label.text = [NSString stringWithFormat:@"%@, %i", myFriend.name, myFriend.age];
     return cell;
     
@@ -174,16 +175,13 @@
     friend *newFriend = [[friend alloc] init];
     newFriend.username = username;
     NSLog(@"New friend username = %@", newFriend.username);
-    
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"username" equalTo:username];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error) {
-            newFriend.name = [object objectForKey:@"screenName"];
-            newFriend.age = [[object objectForKey:@"age"] intValue];
-        }
-    }];
-    [_friends addObject:newFriend];
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"username" equalTo:newFriend.username];
+    PFObject *object = [query getFirstObject];
+    newFriend.name = object[@"screenName"];
+    newFriend.age = [object[@"age"] intValue];
+    NSLog(@"Newfriend.name = %@", newFriend.name);
+    [_friends insertObject:newFriend atIndex:0];
     [self.tableView reloadData];
 }
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID {
@@ -203,7 +201,7 @@
     [self.browserViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    friend *friendToCall = [_friends objectAtIndex:0];
+    friend *friendToCall = [_friends objectAtIndex:indexPath.row];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theNewCallScreen = (callScreen *)[storyboard instantiateViewControllerWithIdentifier:@"callScreen"];
     [_theNewCallScreen setDelegate:self];
@@ -214,7 +212,7 @@
     [self placeCall:friendToCall.username];
 }
 - (void)placeCall:(NSString *)username {
-    _call = [_client.callClient callUserWithId:@"0000"];
+    _call = [_client.callClient callUserWithId:username];
     _call.delegate = self;
 }
 - (void)callDidProgress:(id<SINCall>)call {

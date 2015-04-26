@@ -202,10 +202,10 @@
                                     <action selector="hangUp:" destination="byM-fg-LAy" eventType="touchUpInside" id="fi7-qt-rIQ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qv5-D0-HCo">
-                                <rect key="frame" x="38" y="77" width="244" height="70"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name of friend" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g2T-g6-0pv">
+                                <rect key="frame" x="44" y="83" width="232" height="94"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -213,7 +213,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="nameOfFriendLabel" destination="Qv5-D0-HCo" id="uzw-Ci-LYu"/>
+                        <outlet property="friendNameLabel" destination="g2T-g6-0pv" id="lOC-YN-wno"/>
                         <outlet property="statusLabel" destination="aF2-dw-xIq" id="2LG-Oj-vlK"/>
                     </connections>
                 </viewController>

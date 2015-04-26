@@ -15,7 +15,8 @@
 @end
 
 @interface callScreen : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *nameOfFriendLabel;
+@property (weak, nonatomic) IBOutlet UILabel *friendNameLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (nonatomic, weak)  id<callScreenDelegate>delegate;

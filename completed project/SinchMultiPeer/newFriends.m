@@ -35,10 +35,7 @@
     _theNewCallScreen = (callScreen *)[storyboard instantiateViewControllerWithIdentifier:@"callScreen"];
     [_theNewCallScreen setDelegate:self];
     [self presentViewController:_theNewCallScreen animated:YES completion:nil];
-    _theNewCallScreen.statusLabel.text = @"Connected";
-    _theNewCallScreen.nameOfFriendLabel.text = _remoteUserId;
 }
-
 - (void)decline {
     [_call hangup];
     //this
@@ -83,6 +80,7 @@
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
     
     _theIncomingCallScreen.nameLabel.text = [NSString stringWithFormat:@"Call from %@", call.remoteUserId];
+    _remoteUserId = call.remoteUserId;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -213,7 +211,7 @@
     [_theNewCallScreen setDelegate:self];
     [self presentViewController:_theNewCallScreen animated:YES completion:nil];
     _theNewCallScreen.statusLabel.text = @"Calling...";
-    _theNewCallScreen.nameOfFriendLabel.text = friendToCall.name;
+    _theNewCallScreen.friendNameLabel.text = friendToCall.name;
     NSLog(@"Friend to call username = %@", friendToCall.username);
     [self placeCall:friendToCall.username];
 }
@@ -233,6 +231,7 @@
 }
 - (void)callDidEstablish:(id<SINCall>)call {
     _theNewCallScreen.statusLabel.text = @"Connected";
+    _theNewCallScreen.friendNameLabel.text = call.remoteUserId;
 }
 
 @end

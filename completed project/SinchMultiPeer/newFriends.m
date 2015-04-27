@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, weak) callScreen *theNewCallScreen;
 @property (nonatomic, weak) incomingCall *theIncomingCallScreen;
-@property (nonatomic, weak) NSString *remoteUserId;
+@property (nonatomic, strong) NSString *remoteUserId;
 @end
 @implementation newFriends {
     id<SINClient> _client;
@@ -67,20 +67,27 @@
     NSLog(@"Incoming call");
     call.delegate = self;
     _call = call;
-    /* remove this method
+    // remove this method
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"username" equalTo:call.remoteUserId];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        _remoteUserId = object[@"screenName"];
+        if (!error) {
+            NSString *usernameOfCaller = object[@"screenName"];
+            [self presentIncomingCallScreen:usernameOfCaller];
+                    }
+        NSLog(@"remote user id = %@", _remoteUserId);
     }];
-     */
+     
+    
+}
+- (void)presentIncomingCallScreen:(NSString *)username {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
     _theIncomingCallScreen.delegate = self;
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
     
-    _theIncomingCallScreen.nameLabel.text = [NSString stringWithFormat:@"Call from %@", call.remoteUserId];
-    _remoteUserId = call.remoteUserId;
+    _theIncomingCallScreen.nameLabel.text = username;
+
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -186,7 +193,8 @@
     newFriend.age = [object[@"age"] intValue];
     NSLog(@"Newfriend.name = %@", newFriend.name);
     [_friends insertObject:newFriend atIndex:0];
-    [self.tableView reloadData];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
 }
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID {
     
@@ -231,7 +239,8 @@
 }
 - (void)callDidEstablish:(id<SINCall>)call {
     _theNewCallScreen.statusLabel.text = @"Connected";
-    _theNewCallScreen.friendNameLabel.text = call.remoteUserId;
+    //_theNewCallScreen.friendNameLabel.text = _remoteUserId;
+    NSLog(@"Remote user Id = %@", _remoteUserId);
 }
 
 @end

@@ -16,11 +16,28 @@ To complete this tutorial you will need some basic objective-c language knowledg
 
 Just for some quick insight, here’s the basic concepts behind the multipeer connectivity framework. This framework utilises pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apples AirDrop platform is presumably built on none other than the multi peer framework!
 
-To get started download the starter project(link to gitgub repo) which contains all the storyboards and view controllers to complete this tutorial, along the way you may be required to add a few classes though. Once you’ve opened the project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the iOS SDK(link to download page) and then use the quick start guide to acquire your APP ID and Client ID. Once you’ve got those head over to the Xcode project. 
+To get started download the starter project which contains all the storyboards and view controllers to complete this tutorial, along the way you may be required to add a few classes though. Once you’ve opened the project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the iOS SDK(link to download page) and then use the quick start guide to acquire your APP ID and Client ID. Once you’ve got those head over to the Xcode project. 
 
 Please note that this projects storyboards are made to suit an iPhone 5S however size classes can be added to make it universal. We recommend using the iPhone 5S simulator to avoid unecessary display issues. 
 
-First add the Parse framework from your downloads folder (or from wherever you may have saved it) to your project, it's best to select 'copy items if needed' when adding third party frameworks. You will now need to add some local frameworks to ensure the Parse framework has the resources to work properly. In the left hand column of xcode, navigate to the project settings and down the bottom of the page you will find a section labelled Linked Frameworks and Libraries. Click the plus symbol and add these frameworks…	
+
+There's two options to add parse and sinch to our project, we can either import them as a framework or use cocoapods. For many reasons cocoapods is best, the main reason being version compatability. If you're unaware of how to use cocoapods head over to the [cocoapods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a podfile, edit that podfile and add two pods. The two pods will be Sinch and Parse, the finished PodFile should look like this...
+
+		target 'SinchMultiPeer' do
+		pod 'SinchRTC', '~> 3.5'
+		pod 'Parse', '~> 1.7'
+		end
+
+		target 'SinchMultiPeerTests' do
+
+		end
+
+After you've finished editing the PodFile, use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file.
+
+If you do go down the road of adding the files by importing the frameworks then when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
+
+
+You will now need to add some local frameworks to ensure the Parse framework has the resources to work properly. In the left hand column of xcode, navigate to the project settings and down the bottom of the page you will find a section labelled Linked Frameworks and Libraries. Click the plus symbol and add these frameworks…	
 
 * AudioToolbox.framework
 * CFNetwork.framework
@@ -42,7 +59,7 @@ You’re now ready to start coding, navigate over to the AppDelegate.m file. Bel
 			
 ```
 
-That will import the framework and now you can use it in the Appdelegate, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
+That will import the framework and now you will be able to use it in the Appdelegate.h & .m files, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
 
 ```objective-c
 		
@@ -50,7 +67,7 @@ That will import the framework and now you can use it in the Appdelegate, now na
 		
 ```
 
-This code simply initialises parse with your individual application ID’s, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions is your first and best chance at initialising these third party frameworks.
+This code simply initialises parse with your individual application ID’s, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented. You will need to add your own App Id and client key into the code above. 
 
 Now navigate to loginViewController.m where we will get to work on implementing Parse login. Once again import the parse framework into the file. Add this code to the login method already in place (the IBAction method is connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
 
@@ -82,8 +99,8 @@ Now navigate to loginViewController.m where we will get to work on implementing 
 	}
 	@end
 
-	
 ```
+
 Here you can see I’ve added a loggedIn BOOL to the instance variables of the class which is used to determine wether the login was successful when shouldPerformSegueWithIdentifier is called. Besides that I’ve just followed Parse’s login protocol as outlined in their docs, as this is a tutorial I will briefly explain what’s going on. 
 
 For simplicity I’ve created some local NSStrings which relate to the text from the two textField properties as outlined in the .h file. From those I’ve called PFUser login, inputted the two variables and then used a block to determine the outcome. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error we set loggedIn to no and display an alert but if it’s successful we set loggedIn to YES and go ahead and call for a segue. 
@@ -93,6 +110,7 @@ Moving on!
 At the moment users can login and be presented with the newFriends view controller but it isn't currently possible for them to sign up, it's time to back-track and add some sign-up functionality. 
 
 Head on over to signUpViewController.m and once again import the parse framework.
+
 ```objective-c
 
 	#import <Parse/Parse.h>
@@ -748,36 +766,44 @@ Before we implement the rest of the code to make the magic happen there’s some
 
 When there’s an incoming call we’re going to present the incomingCall view controller, from there the user will be given the option to either answer or decline the call. The answer and decline function will once again be implemented using delegates, if a user chooses to answer a call we will go ahead and present the callScreen!
 
-Within didReceiveIncomingCall let’s add the necessary code to present the incomingCall screen. 
-```objective-c
-
-	- (void)client:(id<SINCallClient>)client didReceiveIncomingCall:(id<SINCall>)call {
-    		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    			_theIncomingCallScreen = (incomingCall *)[storyboard 								instantiateViewControllerWithIdentifier:@"incomingCall"];
-    			[self presentViewController:_theIncomingCallScreen animated:YES 					completion:nil];
-		}
-```
-
-We’ve done this all before so no explanation necessary. At the top of this method we want to set our call delegate and set the call property equal to our incoming call, add this above the storyboard declaration. 
-
+Within didReceiveIncomingCall let’s first do the essentials, we need to set delegates! Go ahead and set the delegates for _call!
 ```objective-c
 
 		call.delegate = self;
     		_call = call;
 ```
-
-We can currently access the remoteUserId from the call object, but do we want to present the username or the persons name? Well it makes more sense to present the persons name if you ask me. Let’s use parse to find the corresponding name of a user given the username. Here’s the code to add in to the bottom of the didReceiveIncomingCall method. As you can see we haven’t previously declared remoteUserId so go ahead and create a property in the .m file of type NSString to store the name of the user that’s calling us.
+Although this code performs a function it doesn't do what we need it to do. Ideally we want to present the incoming call screen and display exactly who's calling us. We could easily present the username of the user calling us by accessing the remoteUserId property on the call object although it would be far more personalised if we could display the users real name. We're now going to do a simple parse query to find the name that matches our friends username. Add this code into the didReceiveIncomingCallMethod.
 
 ```objective-c
 
-		PFQuery *query = [PFQuery queryWithClassName:@"User"];
-    		[query whereKey:@"username" equalTo:call.remoteUserId];
-    		[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        _remoteUserId = object[@"name"];
-    		}];
-    		_theIncomingCallScreen.nameLabel.text = _remoteUserId;
- ```
-On the bottom line you can see we’re setting the name label on our incoming call screen view controller. 
+	PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"username" equalTo:call.remoteUserId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            NSString *usernameOfCaller = object[@"screenName"];
+            [self presentIncomingCallScreen:usernameOfCaller];
+                    }
+    }];
+```
+Within this method we're querying parse and searching for a user object that has a matching username to the user that's calling us. As you can see we're sourcing the username from the remoteUserId property on the call object. Then we run a block and if there isn't an error we get the screen name of the user and store it in a NSString object. In the next line we're calling a method that we send the name of the caller to. Although you may think this is a strange place to call a method which presents the incomingCall screen it's the most logical, we don't want to present the incomingCall screen unless we know what the users name is so we wait until after we've got that from parse to present the next screen. Although there will be a small lag whilst the query is taking place it's nothing major and adds to the user experience.
+
+Go ahead and declare the presentIncomingCallScreen method below the didReceiveIncomingCall method in the newFriends.m file. Remember it's going to need to take one variable, a NSString and it won't need to return anything so make it void. The method should look something like this. 
+
+```objective-c
+
+	- (void)presentIncomingCallScreen:(NSString *)username {
+	}
+```
+Now we're going to add in the logic. The functionality required will be to present the IncomingCall screen, set the view controllers delegate, present the view controller itself and then set the nameOfFriendLabel. Go ahead and try this yourself, the storyboard name is Main and the view controller we want to present's identifier is incomingCall. If you had some trouble here's the code we came up with!
+
+```objective-c
+
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
+    _theIncomingCallScreen.delegate = self;
+    [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
+    _theIncomingCallScreen.nameLabel.text = username;
+```
 
 Now we’ve only got to implement the delegate methods to either accept or decline an incoming call. Head over to incomingCall.m and find the answer and decline methods. In the respective methods add these two calls to self.delegate.
 ```objective-c
@@ -811,18 +837,25 @@ Now navigate to the .h file and implement both the answer and decline methods.
 ```objective-c
 
 	- (void)answer {;
+    		[_call answer];
+    		[_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
     		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    		_theNewCallScreen = (callScreen *)[storyboard 								instantiateViewControllerWithIdentifier:@"callScreen"];
+    		_theNewCallScreen = (callScreen *)[storyboard 			instantiateViewControllerWithIdentifier:@"callScreen"];
     		[_theNewCallScreen setDelegate:self];
     		[self presentViewController:_theNewCallScreen animated:YES completion:nil];
-    		_theNewCallScreen.statusLabel.text = @"Connected";
-    		_theNewCallScreen.nameOfFriendLabel.text = _remoteUserId;
 	}
 	- (void)decline {
     		[_call hangup];
+    		[_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
 	}
 ```	
 Once again we’ve done all this before so if you have any trouble working out what’s going on the best idea is to head back all look over past explanations. 
+
+If you run the app in its current state you will see that when you answer a call and you're directed to the callScreen that the nameOfFriendLabel doesn't update. In the Sinch delegate method callDidEstablish add this code..
+
+```objective-c
+	_theNewCallScreen.friendNameLabel.text = _remoteUserId;
+```
 
 That’s all for now folks!
 

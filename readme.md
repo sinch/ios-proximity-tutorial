@@ -851,12 +851,6 @@ Now navigate to the .h file and implement both the answer and decline methods.
 ```	
 Once again we’ve done all this before so if you have any trouble working out what’s going on the best idea is to head back all look over past explanations. 
 
-If you run the app in its current state you will see that when you answer a call and you're directed to the callScreen that the nameOfFriendLabel doesn't update. In the Sinch delegate method callDidEstablish add this code..
-
-```objective-c
-	_theNewCallScreen.friendNameLabel.text = _remoteUserId;
-```
-
 That’s all for now folks!
 
 

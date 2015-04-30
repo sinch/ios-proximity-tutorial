@@ -1,6 +1,6 @@
+# Building an iOS Proximity App
 
-
-© Zac Brown 2015
+Thanks to [Zac Brown](https://twitter.com/brownzac1) for writing this tutorial.
 
 [Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform(iOS, Android and Web) or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
 
@@ -8,9 +8,7 @@ Today’s project will be to integrate Sinch into an iOS application which will 
 
 Here's a few screenshots of what we will be building!
 
-![My image](/images/1.png)![My image](/images/2.png)
-![My image](/images/3.png)![My image](/images/4.png)
-![My image](/images/5.png)
+![overview screens](images/overview.jpg)
 
 To complete this tutorial you will need some basic objective-c language knowledge, it's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
 
@@ -54,17 +52,13 @@ You will now need to add some local frameworks to ensure the Parse framework has
 You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
 
 ```objective-c
-
-			#import <Parse.Parse.h>
-			
+#import <Parse.Parse.h>			
 ```
 
 That will import the framework and now you will be able to use it in the Appdelegate.h & .m files, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
 
-```objective-c
-		
-		[Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
-		
+```objective-c		
+[Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
 ```
 
 This code simply initialises parse with your specific application ID’s and makes a connection between the parse backend and the iOS client, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions method is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented which is why we've chose to place it here. You will need to add your own App Id and client key that you took note of earlier into the code above. 
@@ -112,9 +106,7 @@ At the moment users can login and be presented with the newFriends view controll
 Head on over to signUpViewController.m and once again import the parse framework.
 
 ```objective-c
-
-	#import <Parse/Parse.h>
-	
+#import <Parse/Parse.h>
 ```
 
 Now we will add some methods that are very similar to what we did in the login view controller, once again I’ve created some local NSString’s that are local copies of the text extracted from the username, password, screen name and age textfields.
@@ -160,6 +152,7 @@ It’s good practice to run the code in the iOS simulator after each new feature
 After testing this you will already recognise a small issue, although there’s nothing wrong with the code you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless the keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
 
 Add this method into both the loginViewController and signupViewController implementation files.
+
 ```objective-c
 
 	- (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -179,7 +172,12 @@ Go ahead and test this, you will find that it won’t work but there’s an easy
 	}
 	
 ```
+<<<<<<< HEAD
 I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of sinch into our project later on in the tutorial. 
+=======
+
+I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of parse into our project later on in the tutorial. 
+>>>>>>> origin/master
 
 Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
 
@@ -187,24 +185,26 @@ Although we can login and signup at this point, there isn’t much else we can d
 
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
 
+<<<<<<< HEAD
 The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
 ```objective-c
+=======
+The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework, like this
+>>>>>>> origin/master
 
-	#import <MultipeerConnectivity/MultipeerConnectivity.h>
-	
+```objective-c
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 ```
 
 First we need to create some properties in the interface section of newFriends.m as you can see here, these are all pretty essential to use the multipeer connectivity framework.
 
 ```objective-c
-
 	@interface newFriends ()
 	@property (nonatomic, retain) MCAdvertiserAssistant *advertiserAssistant;
 	@property (nonatomic, retain) MCSession *session;
 	@property (nonatomic, retain) MCPeerID *peerId;
 	@property (nonatomic, retain) MCBrowserViewController *browserViewController;
 	@end
-	
 ```
 	
 Here’s a quick run-down of what each property is used for
@@ -230,9 +230,7 @@ At this point you will need to head over to the newFriend.h file and set this cl
 To this
 
 ```objective-c
-	
 	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, MCSessionDelegate>
-	
 ```
 	
 Easy! (all we're doing is saying that the newFriends class conforms to the delegate protocol)
@@ -245,22 +243,18 @@ If you're struggling with the delegate concept, here's a quick example.
 Here’s all the delegate methods we need to implement with a brief description of each below.
 
 ```objective-c
-
 	- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{  
 	
 	}
-	
 ```
 	
 
 Called when the users device changes state, either connects/disconnects 				from a peer or when a peer connects to the user
 
 ```objective-c
-	
 	- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:	(MCPeerID *)peerID { 
 	
 	}
-	
 ```
 	
 Called when the device receives data from a peer
@@ -276,17 +270,14 @@ Called when the device receives data from a peer
 Called when the device receives a stream from a peer.
 
 ```objective-c
-
 	- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress {
 	
 	}
-	
 ```
 
 Called when the device receives something from a peer
 
 ```objective-c
-	
 	- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString 	*)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError 	*)error { 
 	
 	}
@@ -294,7 +285,6 @@ Called when the device receives something from a peer
 Called when the device has finished receiving a resource
 
 ```objective-c
-	
 	- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController {
 	}
 	
@@ -304,11 +294,9 @@ Called when the user chooses a peer to connect to
 
 
 ```objective-c
-	
 	- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController { 
 	
 	}
-	
 ```
 
 Called when the user cancels the MCBrowserViewController
@@ -317,7 +305,6 @@ Called when the user cancels the MCBrowserViewController
 Whilst still in newFriends.m add this method above the delegate methods.
 
 ```objective-c 
-
 	- (void)setUpConnection {
     PFUser *user = [PFUser currentUser];
     NSString *screenName = [user objectForKey:@"screenName"];
@@ -327,36 +314,32 @@ Whilst still in newFriends.m add this method above the delegate methods.
     _peerId = [[MCPeerID alloc] initWithDisplayName:displayName];
     NSLog(@"PeerId = %@", _peerId);
 	}
-	
 ```
 
 Here we get the current PFUser object from parse and from that we get the screenName as set by the user when s, instead of displaying the device name we can display the users name which is far more personalised and can be changed as different users login. We then set the peerId display name equal to our screenName variable.
 
 We now need to go ahead and create a session, add this code to the bottom of the method we created above.
-```objective-c
 
+```objective-c
 	  self.session = [[MCSession alloc] initWithPeer:self.peerId];
-    		 self.session.delegate = self;
-    		 
-  ```
+    		 self.session.delegate = self; 
+```
 
 Here we’re simply using the session property we created in the @interface of the file, allocating and calling initWithPeer and using the peerId we previously created. Then we go ahead and set the delegate equal to self so that we’re able to get information from the session.
 
 There’s one last step to finish off this method, we need to put everything together and create a browserViewController. Here’s how simple it is!
 ```objective-c
-	
-		self.browserViewController = [[MCBrowserViewController alloc] 							initWithServiceType:@"sinchMulti" session:self.session];
-       self.browserViewController.delegate = self;
+	self.browserViewController = [[MCBrowserViewController alloc] 			initWithServiceType:@"sinchMulti" session:self.session];
+	self.browserViewController.delegate = self;
        
 ```
 We’ve allocated and called initWithService, we’ve used the name sinchMulti for this project, then we’ve simply gone ahead and set the session equal to the session we created earlier. Once again we’ve set the delegate to self so we can be informed of what’s going on.
 
 Although now we can find other users there’s one thing we’ve forgotten, it isn’t much fun if people can’t find us is it? Let’s go ahead and make our device discoverable, for this we need to use the advertiserAssistant. Once again we’re going to add it on to the bottom of the setUpConnection method.
+
 ```objective-c
-	
 	self.advertiserAssistant = [[MCAdvertiserAssistant alloc] 						initWithServiceType:@"sinchMulti" discoveryInfo:nil session:self.session];
-    [self.advertiserAssistant start];
-   
+    [self.advertiserAssistant start]; 
 ```
  
 This is some really simple code, once again we’re allocating and calling initWithService which we did earlier, we’ve set the discoverInfo to nil and yet again we’ve associated our session we already created with the advertiserAssistant. The last line of code is probably the easiest part of this tutorial and I think it’s pretty self explanatory :P
@@ -364,7 +347,6 @@ This is some really simple code, once again we’re allocating and calling initW
 The finished setUpConnection method should look like this.
 
 ```objective-c
-	
 		- (void)setUpConnection {
     PFUser *user = [PFUser currentUser];
     NSString *screenName = [user objectForKey:@"screenName"];
@@ -378,18 +360,16 @@ The finished setUpConnection method should look like this.
 
 	self.advertiserAssistant = [[MCAdvertiserAssistant alloc] 						initWithServiceType:@"sinchMulti" discoveryInfo:nil 	session:self.session];
     [self.advertiserAssistant start];
-	}
-	
+	}	
 ```
 
 This code is looking pretty good, there’s only one small problem. Can you see it? If you said this code isn’t being executed because nowhere in the code has it been called you’re correct! It’s best to call this method from viewDidLoad, as I mentioned earlier it’s a given that this method is going to be called.
+
 ```objective-c
-		
 		- (void)viewDidLoad {
     			[self setUpConnection];
     			
-		}
-		
+		}	
 ```
 
 As you can probably see there's an error relating to the username property not being declared, go ahead and declare it in the @interface of newFriends.m, make it of type NSString and weak/nonatomic. This property will be used throughout the software so it's best to have it globally accessible. 
@@ -397,12 +377,10 @@ As you can probably see there's an error relating to the username property not b
 We’ve made some good progress but currently there’s no way to present the browserViewController, we’ve included a + bar button in the template file and connected an action to it. In the method simply include this code to present the browserViewController when the button is triggered.
 
 ```objective-c
-
 	- (IBAction)findFriends:(id)sender {
     [self presentViewController:self.browserViewController animated:YES completion:nil];
     
 	}
-
 ```
 
 Now we’ve established a connection between the device we need a way to exchange usernames and then connect the two devices using sinch. First we will send the two usernames and have iOS handle the data and create a conversation for us.
@@ -412,7 +390,6 @@ With the multiplier framework we can send three types of data. Messages which ar
 If you go ahead and hit the + button you should be presented with the browserViewController, you may also notice that there’s no way to get back to the original view. This can easily be fixed by adding in the dismissViewController method into the two delegate methods of browserViewController in the newFriends.m file. Make sure to add this line of code to both methods.
 
 ```objective-c
-
 	[self.browserViewController dismissViewControllerAnimated:YES completion:nil];
 ```
 
@@ -421,19 +398,16 @@ There’s two delegate methods here, one that is called when the browserViewCont
 We’re now going to head over and do some minor editing to the delegate method didChangeState.
 
 ```objective-c
-
 	- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
     if (state == MCSessionStateConnected) {
         [self sendUsername:peerID];
     }
 }
-
 ```
 
 What we’re doing here is seeing if the change to state is a connection being made, if it is then we want to call the method sendUsername and pass along the PeerId of that user. Go ahead and declare the sendUsername method, make it return void and of course make it take a single MCPeerID variable.
 
 ```objective-c
-
 	- (void)sendUsername:(MCPeerID *)peerID {
 			
 	}
@@ -857,6 +831,7 @@ Once again we’ve done all this before so if you have any trouble working out w
 That’s all for now folks!
 
 
+<<<<<<< HEAD
 There’s heaps that you can add to this project and I encourage you to do so.
 
 As a rough guide here's some functionality you could add to this app
@@ -876,3 +851,6 @@ As a rough guide here's some functionality you could add to this app
 
 
 
+=======
+There’s heaps that you can add to this project and I encourage you to do so. 
+>>>>>>> origin/master

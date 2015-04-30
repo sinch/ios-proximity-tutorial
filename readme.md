@@ -4,7 +4,7 @@ Thanks to [Zac Brown](https://twitter.com/brownzac1) for writing this tutorial.
 
 [Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform(iOS, Android and Web) or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
 
-Today’s project will be to integrate Sinch into an iOS application which will match users with other users nearby using Apple’s multipeer connectivity framework, once connected users will then be able to call each other using Sinch. This will be achieved by exchanging userId’s once a connection is established between two devices. This application will also utilise Parse as a means of managing users, logins and storing some basic data.
+Today we will be working on a project to integrate Sinch into an iOS application which will allow users to connect with other users nearby using Apple’s multipeer connectivity framework, once a connection has been made either one of the users will be able to call the other. This will be achieved by exchanging userId’s once a connection is established between two devices. This application will also utilise Parse as a means of managing users, logins and storing some basic data.
 
 Here's a few screenshots of what we will be building!
 
@@ -29,13 +29,14 @@ There's two methods of adding parse and sinch to our project, we can either impo
 		target 'SinchMultiPeerTests' do
 
 		end
+![Podfile](images/podfile.jpg)
 
 After you've finished editing the PodFile be sure to save it and then use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. Installing the pods could take some time, so be patient. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file, make sure to switch over now.
 
 If you do go down the road of adding the files by importing the frameworks then when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
 
-
-You will now need to add some local frameworks to ensure the Parse framework has the resources to work properly. In the left hand column of xcode, navigate to the project settings and down the bottom of the page you will find a section labelled Linked Frameworks and Libraries. Click the plus symbol and add these frameworks…	
+##Setting up Parse
+You will now need to add some local frameworks in Xcode to ensure the Parse framework has the resources to work properly. In the left hand column of xcode, navigate to the project settings and down the bottom of the page you will find a section labelled Linked Frameworks and Libraries. Click the plus symbol and add these frameworks…	
 
 * AudioToolbox.framework
 * CFNetwork.framework
@@ -48,6 +49,10 @@ You will now need to add some local frameworks to ensure the Parse framework has
 * SystemConfiguration.framework
 * libz.dylib
 * libsqlite3.dylib
+
+Your Xcode window should look something like this.
+
+![overview screens](images/frameworks.jpg)
 
 You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
 
@@ -63,7 +68,7 @@ That will import the framework and now you will be able to use it in the Appdele
 
 This code simply initialises parse with your specific application ID’s and makes a connection between the parse backend and the iOS client, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions method is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented which is why we've chose to place it here. You will need to add your own App Id and client key that you took note of earlier into the code above. 
 
-Now navigate to loginViewController.m where we will get to work on implementing our  Parse login. Once again import the parse framework into the file, in every file you wish to use Parse you're goign to have to #impoft the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
+Now navigate to loginViewController.m where we will get to work on implementing our  Parse login. Once again import the parse framework into the file, in every file you wish to use Parse you're goign to have to #import the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
 
 ```objective-c
 
@@ -149,7 +154,26 @@ Now we will add some methods that are very similar to what we did in the login v
 ```
 It’s good practice to run the code in the iOS simulator after each new feature has been added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added each new feature instead of trying to track them when you've finishing a project.
 
-After testing this you will already recognise a small issue, although there’s nothing wrong with the code you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless the keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
+There's already a small bug in place, back in the loginViewController our shouldPerformSegue method works on the condition of whether or not a login has occured. It's a given that if someone has pressed the signup button they're more than likely not going to have successfully signed up. We need to establish whether the segue is to sign up or the one that progresses to the main screen which requires a prior login, in the case of having two segues that we need to control we need to evaluate which segue is trying to occur. We can easily do this in the shouldPerform segue method by querying which identifier has been passed to the method. We now need to go back to loginViewController.m and edit the shouldPerformSegueWithIdentifier method to look something like this.
+
+```objective-c
+
+	- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"loggedIn"]) {
+    if (loggedIn) {
+        return YES;
+    } else {
+        return NO;
+    }
+    } else {
+        return YES;
+    }
+    
+}
+```
+As you can see we've nested the previous if/else within another if/else. We first evaluate if the login segue in trying to occur by seeing if it's equal to the string 'loggedIn'. If that's the identifier we further evaluate if a login has occured to warrant the segue. If that isn't the identifier we simply return yes as there's no prerequisites for the signup screen. It's important to do this as we can't let people segue to the main screen before they've signed in, if we were to allow this and the signup was not successful our application would more than likely crash when we tried to query the current user. 
+
+After testing this you will already recognise a small issue, although there’s nothing wrong with the code at this point, you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless the keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
 
 Add this method into both the loginViewController and signupViewController implementation files.
 
@@ -177,9 +201,12 @@ I chose to put the logic within the viewWillAppear method as it’s a given that
 
 Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
 
+##Adding the multipeer connectivity framework
 Although we can login and signup at this point, there isn’t much else we can do. So, now it’s time to get to work. First we will find some friends using the multi-peer framework and then we will work out how to connect with them using the Sinch SDK. 
 
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
+
+![overview screens](images/storyboard.jpg)
 
 The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
 ```objective-c
@@ -372,7 +399,7 @@ We’ve made some good progress but currently there’s no way to present the br
     
 	}
 ```
-
+##Sending data
 Now we’ve established a connection between the device we need a way to exchange usernames and then connect the two devices using sinch. First we will send the two usernames and have iOS handle the data and create a conversation for us.
 
 With the multiplier framework we can send three types of data. Messages which are short pieces of text, streams that allow data such audio or video to be continuously sent real-time and resources which are local images, movies or documents. For the purpose of this tutorial we will be sending a message, contained in this message will be each users username. Although we could solely use the multipeer framework to chat, once you were to move out of range from the other device your connection would be lost and you’d have no way to connect with them :( That’s why we’re using Sinch.
@@ -450,29 +477,30 @@ As you can see we’ve added yet another method, createFriend which is used to f
 
 ```objective-c
 
-			@property (nonatomic, weak) NSString *name;
-			@property (nonatomic, weak) NSString *username;
+			@property (nonatomic, retain) NSString *name;
+			@property (nonatomic, retain) NSString *username;
 			@property (nonatomic) int age;
 ```
+
+Make sure the two NSString properties are set to 'retain' or else your data will dissapear into thin air along with your friends. 
 
 Now we’re ready to go back and create the createFriend method which utilises our new class, remember to #import the new class or else you might have a bit of trouble.
 ```objective-c
 
 			- (void)createFriend:(NSString *)username {
-    				friend *newFriend = [[friend alloc] init];
-    				newFriend.username = username;
-    				PFQuery *query = [[PFQuery alloc] initWithClassName:@"User"];
-    				[query whereKey:@"username" equalTo:newFriend.username];
-    				[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, 						NSError *error) {
-        	if (!error) {
-            		newFriend.name = [object objectForKey:@"screenName"];
-            		newFriend.age = [[object objectForKey:@"age"] intValue];
-        }
-    }];
+    friend *newFriend = [[friend alloc] init];
+    newFriend.username = username;
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"username" equalTo:newFriend.username];
+    PFObject *object = [query getFirstObject];
+    newFriend.name = object[@"screenName"];
+    newFriend.age = [object[@"age"] intValue];
+    [_friends insertObject:newFriend atIndex:0];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 	}
 ```
 
-First we create an instance of friend, then we set the username property on the friend object, at the current point in time that’s the only variable we know the valuable of. We then go on to create a query, Why? Well we’ve got the username so we’re now able to get the rest of that users information directly from parse. We do this by specifying that we want the username key to be equal to our friends username. We then call getFirstObjectInBackgroundWithBlock, it’s expected that there’s only going to one object matching our query parameters so it makes sense to only get the first. In our block we check whether there’s an error, if not we go ahead and assign the rest of the variables for the friend object. This is all very good but there’s one thing missing… Do you know what it is? Well we have no place to keep our friends of course, let’s create a mutable array to hold our friends. We can create a property like this at the top of our .m file in the @interface section.
+First we create an instance of friend, then we set the username property on the friend object, at the current point in time that’s the only variable we know the valuable of. We then go on to create a query, Why? Well we’ve got the username so we’re now able to get the rest of that users information directly from parse. We do this by specifying that we want the username key to be equal to our friends username. We then call getFirstObject and store it in a local PFObject, it’s expected that there’s only going to one object matching our query parameters so it makes sense to only get the first. We then go ahead and assign the rest of the variables for the friend object. At the bottom of our method you can see a line of code which we haven't yet encountered. This code is calling reloadData which is an inbuilt method for our tableview. If we called [self.tableView reloadData] it wouldn't automatically reload and refresh the data, because of this it's important to perform a selector on the main thread. This is all very good but there’s one thing missing… Do you know what it is? There should be an error warning you about it, as you can see there's no friends array to store our friends. Let's go ahead and make that now or else we're going to be saving those friends into thin air. We can create an array as a property like this at the top of our .m file in the @interface section.
 
 ```objective-c  
 
@@ -482,7 +510,7 @@ First we create an instance of friend, then we set the username property on the 
 	  @end
 ```
 	  
-Now we must use the viewDidLoad method to allocated the memory and initiate the object so it’s ready for use, if we don’t then we won’t have many friends sticking around. The best place to do this is in the viewDidLoad method.
+Now we must use the viewDidLoad method to allocate the memory and initialise the object so it’s ready for use, if we don’t then we won’t have many friends sticking around. The best place to do this is in the viewDidLoad method.
 
 ```objective-c
 
@@ -541,10 +569,11 @@ Everything that’s being done here is pretty standard objective c, take note th
 
 add frameworks for sinch 
 Set delegates on call screen and import framework in .h file
+##Implementing Sinch
+By now we’ve got friends in our friends array, we’re able to display them and now we need to work on making contact. We will be doing this with Sinch, the first thing to do is sign up for Sinch if you don’t already have an account. Once you’ve got an account simply access the dashboard and create a new project, make sure that once you’ve created the project you take note of the specific project keys. 
 
-By now we’ve got friends in our friends array, we’re able to display them and now we need to work on making contact. We will be doing this with Sinch, the first thing to do is sign up for Sinch if you don’t already have an account. Once you’ve got an account simply access the dashboard and create a new project, make sure that once you’ve created the project you take note of the specific project keys. Now head over and download the latest version of the Sinch framework, there’s the option to use Cocoapods but today we’re going to be downloading the files and manually adding them to the xcode project.
+We already added the framework through cocoapods at the beginning so there's no need to add it again, there's the option to download the Sinch framework from the website and install it manually. Be aware that you will need to modify the 'Other Linker flags' in your build settings to ‘-ObjC -Xlinker -lc++’. Cocoapods make it easier to add these frameworks as we don't have to make the linker flags modification and we're able to add the frameworks all at once.
 
-Once you’ve downloaded the framework, import it into your project and make sure that ‘Copy files if needed’ is ticked. Before Sinch will happily work we have to make one small mod to the build settings. In the project settings navigate to build settings and in the search box type ‘other linker’ and you should be presented with the field ‘Other linker flags’. You simply want to add ‘-ObjC -Xlinker -lc++’ to the field, please note this isn’t required when using cocoapods. 
 
 Now we’re ready to get to work implementing Sinch into our project. First we need to establish where the implementation for Sinch should be made. In this project it makes the most sense to put all of the Sinch methods in the newFriends class and the have it act as a delegate to other classes. The two other classes that are going to delegate back to newFriends are callView and incomingCall. First we need to implement all of the delegate methods for Sinch into the newFriends.m file but once again before we do it’s essential to #import <Sinch/Sinch.h>.
 

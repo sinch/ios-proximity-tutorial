@@ -36,9 +36,18 @@
             [alert show];
         } else {
             signedUp = YES;
+            //this
+            [self clearTextFields];
             [self performSegueWithIdentifier:@"signedUp" sender:nil];
         }
     }];
+}
+- (void)clearTextFields {
+    //this
+    self.usernameField.text = @"";
+    self.passwordField.text = @"";
+    self.screenName.text = @"";
+    self.ageField.text = @"";
 }
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if (signedUp) {
@@ -46,6 +55,9 @@
     } else {
         return NO;
     }
+}
+- (IBAction)cancel:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view endEditing:YES];

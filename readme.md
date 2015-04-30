@@ -2,9 +2,9 @@
 
 © Zac Brown 2015
 
-[Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
+[Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform(iOS, Android and Web) or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
 
-Today’s project will be to integrate Sinch into an iOS application which will match users with other users nearby using Apple’s multipeer connectivity framework. This will be achieved by exchanging userId’s once a connection is established between two devices and then allowing those two users to call eachother anywhere and at any time using Sinch! This application will also utilise Parse as a means of managing users and storing some basic data.
+Today’s project will be to integrate Sinch into an iOS application which will match users with other users nearby using Apple’s multipeer connectivity framework, once connected users will then be able to call each other using Sinch. This will be achieved by exchanging userId’s once a connection is established between two devices. This application will also utilise Parse as a means of managing users, logins and storing some basic data.
 
 Here's a few screenshots of what we will be building!
 
@@ -16,12 +16,12 @@ To complete this tutorial you will need some basic objective-c language knowledg
 
 Just for some quick insight, here’s the basic concepts behind the multipeer connectivity framework. This framework utilises pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apples AirDrop platform is presumably built on none other than the multi peer framework!
 
-To get started download the starter project which contains all the storyboards and view controllers to complete this tutorial, along the way you may be required to add a few classes though. Once you’ve opened the project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the iOS SDK(link to download page) and then use the quick start guide to acquire your APP ID and Client ID. Once you’ve got those head over to the Xcode project. 
+To get started download the starter project from the github repository which contains all the storyboards and view controllers to complete this tutorial, along the way you may be required to add a few classes though. We've connected all the views and buttons to their respective methods within the code to simplify this tutorial a little bit. Once you’ve opened the starter project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the [iOS SDK](https://parse.com/downloads/ios/parse-library/latest) and then use the quick start guide to acquire your APP ID and Client ID. Once you’ve got those, take note of them and head over to the Xcode project. 
 
-Please note that this projects storyboards are made to suit an iPhone 5S however size classes can be added to make it universal. We recommend using the iPhone 5S simulator to avoid unecessary display issues. 
+Please note that this project's storyboards are made to suit an iPhone 5S however size classes can be added to make it a universal application. We recommend using the iPhone 5S simulator to avoid unecessary display issues. 
 
 
-There's two options to add parse and sinch to our project, we can either import them as a framework or use cocoapods. For many reasons cocoapods is best, the main reason being version compatability. If you're unaware of how to use cocoapods head over to the [cocoapods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a podfile, edit that podfile and add two pods. The two pods will be Sinch and Parse, the finished PodFile should look like this...
+There's two methods of adding parse and sinch to our project, we can either import them as frameworks or use cocoapods. For many reasons cocoapods is best, the main reason being version compatability. If you're unaware of how to use cocoapods head over to the [cocoapods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a podfile, edit that podfile and add two pods. The two pods will be Sinch and Parse, the finished PodFile should look like this...
 
 		target 'SinchMultiPeer' do
 		pod 'SinchRTC', '~> 3.5'
@@ -32,7 +32,7 @@ There's two options to add parse and sinch to our project, we can either import 
 
 		end
 
-After you've finished editing the PodFile, use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file.
+After you've finished editing the PodFile be sure to save it and then use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. Installing the pods could take some time, so be patient. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file, make sure to switch over now.
 
 If you do go down the road of adding the files by importing the frameworks then when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
 
@@ -67,9 +67,9 @@ That will import the framework and now you will be able to use it in the Appdele
 		
 ```
 
-This code simply initialises parse with your individual application ID’s, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented. You will need to add your own App Id and client key into the code above. 
+This code simply initialises parse with your specific application ID’s and makes a connection between the parse backend and the iOS client, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions method is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented which is why we've chose to place it here. You will need to add your own App Id and client key that you took note of earlier into the code above. 
 
-Now navigate to loginViewController.m where we will get to work on implementing Parse login. Once again import the parse framework into the file. Add this code to the login method already in place (the IBAction method is connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
+Now navigate to loginViewController.m where we will get to work on implementing our  Parse login. Once again import the parse framework into the file, in every file you wish to use Parse you're goign to have to #impoft the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
 
 ```objective-c
 
@@ -101,9 +101,9 @@ Now navigate to loginViewController.m where we will get to work on implementing 
 
 ```
 
-Here you can see I’ve added a loggedIn BOOL to the instance variables of the class which is used to determine wether the login was successful when shouldPerformSegueWithIdentifier is called. Besides that I’ve just followed Parse’s login protocol as outlined in their docs, as this is a tutorial I will briefly explain what’s going on. 
+Here you can see I’ve added a loggedIn BOOL to the instance variables of the class which is used to determine whether the login was successful when shouldPerformSegueWithIdentifier is called, if parse has successfully logged in we return yes which basically tells the app to segue to the next screen and the opposite if a login hasn't occured. Besides that I’ve just followed Parse’s login protocol as outlined in their docs, as this is a tutorial I will briefly explain what’s going on. 
 
-For simplicity I’ve created some local NSStrings which relate to the text from the two textField properties as outlined in the .h file. From those I’ve called PFUser login, inputted the two variables and then used a block to determine the outcome. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error we set loggedIn to no and display an alert but if it’s successful we set loggedIn to YES and go ahead and call for a segue. 
+For simplicity I’ve created some local NSStrings which relate to the text from the two textField properties as outlined in the .h file. From those I’ve called PFUser login, inputted the two variables and then used a block to determine the outcome of calling login. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error we set loggedIn to no and display an alert but if it’s successful we set loggedIn to YES and go ahead and call for a segue. 
 
 Moving on!
 
@@ -155,9 +155,9 @@ Now we will add some methods that are very similar to what we did in the login v
 	@end
 	
 ```
-It’s good practice to run the code in the iOS simulator after each new feature is added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added a new feature or you could end up finishing a project and spending a great deal of time looking for the bugs!
+It’s good practice to run the code in the iOS simulator after each new feature has been added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added each new feature instead of trying to track them when you've finishing a project.
 
-After testing this you will already recognise a small issue, although there’s nothing wrong with the code you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless they keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
+After testing this you will already recognise a small issue, although there’s nothing wrong with the code you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless the keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
 
 Add this method into both the loginViewController and signupViewController implementation files.
 ```objective-c
@@ -169,7 +169,7 @@ Add this method into both the loginViewController and signupViewController imple
 	
 ```
 
-Go ahead and test this, you will find that it won’t work but there’s an easy fix to this! You need to set the delegate of the text fields to self, this is an example from the login view controller.
+Go ahead and test this, you will find that it won’t work but there’s an easy fix to this! You need to set the delegate of the text fields to self(being the current view controller), this is an example of how to set the textField delegates from the login view controller.
 
 ```objective-c
 
@@ -179,7 +179,7 @@ Go ahead and test this, you will find that it won’t work but there’s an easy
 	}
 	
 ```
-I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of parse into our project later on in the tutorial. 
+I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of sinch into our project later on in the tutorial. 
 
 Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
 
@@ -187,14 +187,14 @@ Although we can login and signup at this point, there isn’t much else we can d
 
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
 
-The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework, like this
+The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
 ```objective-c
 
 	#import <MultipeerConnectivity/MultipeerConnectivity.h>
 	
 ```
 
-First we need to create some properties in the interface section of newFriends.m as you can see here
+First we need to create some properties in the interface section of newFriends.m as you can see here, these are all pretty essential to use the multipeer connectivity framework.
 
 ```objective-c
 
@@ -218,9 +218,9 @@ MCPeerID
 A reference for a peer in a session.
 
 MCBrowserViewController
-A view controller provided by apple which will present a list of nearby users.
+A ready-made view controller provided by apple which will present a list of nearby users and allow you to make the connnections.
 
-At this point you will need to head over to the newFriend.h file and set this class as a delegate for the MCBrowserViewController and MCSession. This can be achieved by modifying the following line from this 
+At this point you will need to head over to the newFriend.h file and set this class as a delegate for the MCBrowserViewController and MCSession. This can be achieved by modifying the following line in newFriend.h from this 
 ```objective-c
 	
 	@interface newFriends : UITableViewController
@@ -238,6 +238,9 @@ To this
 Easy! (all we're doing is saying that the newFriends class conforms to the delegate protocol)
 
 Now you will see a heap of new warnings to let us know that we haven’t yet implemented the delegate methods, don’t worry as that’s our next step.
+
+If you're struggling with the delegate concept, here's a quick example.
+	Imagine you ask your friend Joe how much he likes using Sinch, obviously he likes it a lot but he has no way of getting the information to you. In this scenario a delegate would be used, the delegate would wait for Joe to say how much he enjoyed it and then bring the information back and take any neccessary action based on the reply.
 
 Here’s all the delegate methods we need to implement with a brief description of each below.
 
@@ -854,7 +857,14 @@ Once again we’ve done all this before so if you have any trouble working out w
 That’s all for now folks!
 
 
-There’s heaps that you can add to this project and I encourage you to do so. 
+There’s heaps that you can add to this project and I encourage you to do so.
+
+As a rough guide here's some functionality you could add to this app
+
+* Add an instant messaging option using Sinch
+* Make modifications to the user interface
+* Add some profile pictures to the user objects on Parse 
+	
 	
 	
 © Zac Brown 2015

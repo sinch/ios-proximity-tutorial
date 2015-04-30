@@ -85,7 +85,7 @@
     _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
     _theIncomingCallScreen.delegate = self;
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
-    
+    _remoteUserId = username;
     _theIncomingCallScreen.nameLabel.text = username;
 
 }
@@ -109,14 +109,6 @@
 //
 - (void)viewDidLoad {
     _friends = [[NSMutableArray alloc] init];
-    /*
-    friend *friendz = [[friend alloc] init];
-    
-    //adding of test friend
-    friendz.name = @"zac";
-    friendz.age = 12;
-    [_friends addObject:friendz];
-    */
     [self setUpConnection];
 
     [self setupSinch];

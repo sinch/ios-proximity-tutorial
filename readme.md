@@ -172,12 +172,8 @@ Go ahead and test this, you will find that it won’t work but there’s an easy
 	}
 	
 ```
-<<<<<<< HEAD
-I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of sinch into our project later on in the tutorial. 
-=======
 
-I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of parse into our project later on in the tutorial. 
->>>>>>> origin/master
+I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of sinch into our project later on in the tutorial. 
 
 Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
 
@@ -185,13 +181,7 @@ Although we can login and signup at this point, there isn’t much else we can d
 
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
 
-<<<<<<< HEAD
 The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
-```objective-c
-=======
-The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework, like this
->>>>>>> origin/master
-
 ```objective-c
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 ```
@@ -582,6 +572,7 @@ Now we can finish off the setupSinch method.
 ```
 
 This is standard client implementation for sinch, first we set _client equal to our application and application secret keys which can be obtained from the Sinch dashboard. For testing purposes all apps will be in the environmentHost of sandbox.sinch.com.
+
 We also set the client userId equal to the _username property. This property is set when we call setupConnection in viewDidLoad, refer back to that method if you don’t understand. Next we set the delegate and then set support calling to YES, if we we were going to allow instant messaging within our app we would call [_client setSupportMessaging:YES];. We would then start the client and begin listening for incoming calls!
 
 Now that we’ve moved on to the implementation of Sinch, let’s work out the easiest way to work through the problems in front of us. Here’s the functionality we need to add…
@@ -830,27 +821,10 @@ Once again we’ve done all this before so if you have any trouble working out w
 
 That’s all for now folks!
 
-
-<<<<<<< HEAD
-There’s heaps that you can add to this project and I encourage you to do so.
-
 As a rough guide here's some functionality you could add to this app
 
 * Add an instant messaging option using Sinch
 * Make modifications to the user interface
 * Add some profile pictures to the user objects on Parse 
 	
-	
-	
-© Zac Brown 2015
-
-
-
-
-
-
-
-
-=======
 There’s heaps that you can add to this project and I encourage you to do so. 
->>>>>>> origin/master

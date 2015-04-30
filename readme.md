@@ -1,3 +1,5 @@
+# Building an iOS Proximity App
+
 Thanks to [Zac Brown](https://twitter.com/brownzac1) for writing this tutorial.
 
 [Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 

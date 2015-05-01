@@ -74,10 +74,10 @@
         if (!error) {
             NSString *usernameOfCaller = object[@"screenName"];
             [self presentIncomingCallScreen:usernameOfCaller];
-                    }
+        }
         NSLog(@"remote user id = %@", _remoteUserId);
     }];
-     
+    
     
 }
 - (void)presentIncomingCallScreen:(NSString *)username {
@@ -87,7 +87,7 @@
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
     _remoteUserId = username;
     _theIncomingCallScreen.nameLabel.text = username;
-
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -110,7 +110,7 @@
 - (void)viewDidLoad {
     _friends = [[NSMutableArray alloc] init];
     [self setUpConnection];
-
+    
     [self setupSinch];
     
 }
@@ -119,7 +119,7 @@
 - (void)setupSinch {
     NSLog(@"Username = %@", _username);
     _client = [Sinch clientWithApplicationKey:@"de420ee2-a973-499e-9650-c7bbbf867081"
-                applicationSecret:@"Vzc1hkh/f0aRa6GOuNZrrg=="
+                            applicationSecret:@"Vzc1hkh/f0aRa6GOuNZrrg=="
                               environmentHost:@"sandbox.sinch.com"
                                        userId:_username];
     _client.callClient.delegate = self;
@@ -186,7 +186,6 @@
     NSLog(@"Newfriend.name = %@", newFriend.name);
     [_friends insertObject:newFriend atIndex:0];
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    
 }
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID {
     

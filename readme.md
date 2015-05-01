@@ -52,7 +52,7 @@ You will now need to add some local frameworks in Xcode to ensure the Parse fram
 
 Your Xcode window should look something like this.
 
-![overview screens](images/frameworks.jpg)
+![overview screens](images/frameworks.png)
 
 You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
 
@@ -206,7 +206,7 @@ Although we can login and signup at this point, there isn’t much else we can d
 
 Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
 
-![overview screens](images/storyboard.jpg)
+![overview screens](images/storyboard.png)
 
 The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
 ```objective-c

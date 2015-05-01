@@ -29,7 +29,7 @@ There's two methods of adding parse and sinch to our project, we can either impo
 		target 'SinchMultiPeerTests' do
 
 		end
-![Podfile](images/podfile.jpg)
+![Podfile](images/podfile.png)
 
 After you've finished editing the PodFile be sure to save it and then use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. Installing the pods could take some time, so be patient. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file, make sure to switch over now.
 

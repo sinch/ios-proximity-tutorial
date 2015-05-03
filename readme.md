@@ -855,5 +855,13 @@ As a rough guide here's some functionality you could add to this app
 * Add an instant messaging option using Sinch
 * Make modifications to the user interface
 * Add some profile pictures to the user objects on Parse 
+* Have messages automatically save themselves to Parse
+* Persist data on the iOS Device
+* Add facebook login using Parse
+* Configure push notifications so calls can be received at any time
 	
-There’s heaps that you can add to this project and I encourage you to do so. 
+There’s an endless list of things that you can add to this project and I encourage you to experiment with the project.
+
+Sinch is an excellent framework and with their wide range of excellend SDKs and APIs you can do anything with their products. If you've got any questions or would like to get in contact with me you can contact me on [twitter](www.twitter.com/brownzac1) or [Christian Jensen](www.twitter.com/cjsinch) who's Sinch's Developer Evangelist. We look foward to hearing from you!
+
+If you've got any ideas for upcoming tutorials we would love to hear them!

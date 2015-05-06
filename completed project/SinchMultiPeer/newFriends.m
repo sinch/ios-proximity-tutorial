@@ -108,18 +108,19 @@
 
 //
 - (void)viewDidLoad {
+    
     _friends = [[NSMutableArray alloc] init];
     [self setUpConnection];
-    
     [self setupSinch];
+    
     
 }
 
 
 - (void)setupSinch {
     NSLog(@"Username = %@", _username);
-    _client = [Sinch clientWithApplicationKey:@"de420ee2-a973-499e-9650-c7bbbf867081"
-                            applicationSecret:@"Vzc1hkh/f0aRa6GOuNZrrg=="
+    _client = [Sinch clientWithApplicationKey:@"49ca8785-7f32-418c-8cb7-e978d457af6a"
+                            applicationSecret:@"5KslmfyjP06A5/p7nk5m6w=="
                               environmentHost:@"sandbox.sinch.com"
                                        userId:_username];
     _client.callClient.delegate = self;
@@ -230,8 +231,9 @@
 }
 - (void)callDidEstablish:(id<SINCall>)call {
     _theNewCallScreen.statusLabel.text = @"Connected";
-    //_theNewCallScreen.friendNameLabel.text = _remoteUserId;
+    _theNewCallScreen.friendNameLabel.text = _remoteUserId;
     NSLog(@"Remote user Id = %@", _remoteUserId);
+    
 }
 
 @end

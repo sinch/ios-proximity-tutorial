@@ -2,24 +2,24 @@
 
 Thanks to [Zac Brown](https://twitter.com/brownzac1) for writing this tutorial.
 
-[Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android and Web applications. Not only does it allow app to app communications, there’s also the option to send SMS’s and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform(iOS, Android and Web) or the Sinch API, Sinch is also now fully compatible with 64-bit architecture on iOS! 
+[Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android, and Web applications. Not only does it allow app-to-app communications, but gives the option to send text messages and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform (iOS, Android, and Web) or the Sinch API. Sinch is also now fully compatible with 64-bit architecture on iOS.
 
-Today we will be working on a project to integrate Sinch into an iOS application which will allow users to connect with other users nearby using Apple’s multipeer connectivity framework, once a connection has been made either one of the users will be able to call the other. This will be achieved by exchanging userId’s once a connection is established between two devices. This application will also utilise Parse as a means of managing users, logins and storing some basic data.
+Today we will be working on a project to integrate Sinch into an iOS application. This will let users connect with other users nearby using Apple’s multi-peer connectivity framework; once a connection has been made, either user will be able to call the other. We will achieve this by exchanging userIds once a connection is established between two devices. This application will also use Parse as a means of managing users, logins, and storage of some basic data.
 
-Here's a few screenshots of what we will be building!
+Check out are a few screenshots of what we will be building.
 
 ![overview screens](images/overview.jpg)
 
-To complete this tutorial you will need some basic objective-c language knowledge, it's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
+To complete this tutorial, you will need some basic Objective-C language knowledge. It's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
 
-Just for some quick insight, here’s the basic concepts behind the multipeer connectivity framework. This framework utilises pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apples AirDrop platform is presumably built on none other than the multi peer framework!
+Just for some quick insight, here’s the basic concepts behind the multi-peer connectivity framework. This framework uses pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apple’s AirDrop platform is presumably built on none other than the multi-peer framework.
 
-To get started download the starter project from the github repository which contains all the storyboards and view controllers to complete this tutorial, along the way you may be required to add a few classes though. We've connected all the views and buttons to their respective methods within the code to simplify this tutorial a little bit. Once you’ve opened the starter project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the [iOS SDK](https://parse.com/downloads/ios/parse-library/latest) and then use the quick start guide to acquire your APP ID and Client ID. Once you’ve got those, take note of them and head over to the Xcode project. 
+To get started, download the starter project from the GitHub repository, which contains all the storyboards and view controllers to complete this tutorial. Along the way, you may be required to add a few classes, though. We've connected all the views and buttons to their respective methods within the code to simplify this tutorial. Once you’ve opened the starter project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the [iOS SDK](https://parse.com/downloads/ios/parse-library/latest), and use the quick-start guide to acquire your App ID and Client ID. Once you have those, take note of them and head over to the Xcode project. 
 
-Please note that this project's storyboards are made to suit an iPhone 5S however size classes can be added to make it a universal application. We recommend using the iPhone 5S simulator to avoid unecessary display issues. 
+Please note that this project's storyboards are made to suit an iPhone 5S, however size classes can be added to make it a universal application. We recommend using the iPhone 5S simulator to avoid unnecessary display issues. 
 
 
-There's two methods of adding parse and sinch to our project, we can either import them as frameworks or use cocoapods. For many reasons cocoapods is best, the main reason being version compatability. If you're unaware of how to use cocoapods head over to the [cocoapods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a podfile, edit that podfile and add two pods. The two pods will be Sinch and Parse, the finished PodFile should look like this...
+There are two methods of adding Parse and Sinch to our project: We can either import them as frameworks or use CocoaPods. For many reasons, CocoaPods is best, mainly because of version compatibility. If you're unaware of how to use CocoaPods, head over to the [CocoaPods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a Podfile, edit that Podfile and add two pods. The two pods will be Sinch and Parse. The finished Podfile should look like this:
 
 		target 'SinchMultiPeer' do
 		pod 'SinchRTC', '~> 3.5'
@@ -31,12 +31,12 @@ There's two methods of adding parse and sinch to our project, we can either impo
 		end
 ![Podfile](images/podfile.png)
 
-After you've finished editing the PodFile be sure to save it and then use the cd command in terminal to navigate to your project and then use the command ```pod install``` to add the finishing touches. Installing the pods could take some time, so be patient. From now on you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file, make sure to switch over now.
+After you've finished editing the Podfile, be sure to save it and use the cd command in terminal to navigate to your project. Use the command ```pod install``` to add the finishing touches. Installing the pods could take some time, so be patient. From now on, you will be required to use the .xcworkspaces file to finish your project instead of the .xcodeproj file; make sure to switch over now.
 
-If you do go down the road of adding the files by importing the frameworks then when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
+If you do go down the road of adding the files by importing the frameworks, when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
 
 ##Setting up Parse
-You will now need to add some local frameworks in Xcode to ensure the Parse framework has the resources to work properly. In the left hand column of xcode, navigate to the project settings and down the bottom of the page you will find a section labelled Linked Frameworks and Libraries. Click the plus symbol and add these frameworks…	
+You will now need to add some local frameworks in Xcode to ensure the Parse framework has the resources to work properly. In the left hand column of Xcode, navigate to the project settings and at the bottom of the page you will find a section labeled “Linked Frameworks and Libraries.” Click the “+” symbol and add these frameworks:	
 
 * AudioToolbox.framework
 * CFNetwork.framework
@@ -50,25 +50,25 @@ You will now need to add some local frameworks in Xcode to ensure the Parse fram
 * libz.dylib
 * libsqlite3.dylib
 
-Your Xcode window should look something like this.
+Your Xcode window should look something like this:
 
 ![overview screens](images/frameworks.png)
 
-You’re now ready to start coding, navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it, add this code.
+Now you’re ready to start coding. Navigate over to the AppDelegate.m file. Below ‘#import “AppDelegate.h” you want to import the Parse framework so that you can start using it; add this code:
 
 ```objective-c
 #import <Parse.Parse.h>			
 ```
 
-That will import the framework and now you will be able to use it in the Appdelegate.h & .m files, now navigate to the method didFinishLaunchingWithOptions and add this code which I’ll explain below.
+That will import the framework and now you will be able to use it in the Appdelegate.h & .m files. Next, navigate to the method didFinishLaunchingWithOptions and add this code, which I’ll explain below.
 
 ```objective-c		
 [Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
 ```
 
-This code simply initialises parse with your specific application ID’s and makes a connection between the parse backend and the iOS client, make sure they’re correct or else you’re going to have some trouble! The didFinishLaunchingWithOptions method is your first and best chance at initialising these third party frameworks and doesn't rely on view controllers being presented which is why we've chose to place it here. You will need to add your own App Id and client key that you took note of earlier into the code above. 
+This code simply initializes Parse with your specific application IDs and makes a connection between the Parse backend and the iOS client. Make sure they’re correct or else you’re going to have some trouble. The didFinishLaunchingWithOptions method is your first and best chance at initializing these third-party frameworks and doesn't rely on view controllers being presented, which is why we've chose to place it here. You will need to add your own App ID and client key that you took note of earlier into the code above. 
 
-Now navigate to loginViewController.m where we will get to work on implementing our  Parse login. Once again import the parse framework into the file, in every file you wish to use Parse you're goign to have to #import the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in, don’t worry we will make a sign up screen next!
+Now, navigate to loginViewController.m, where we will get to work implementing our Parse login. Once again, import the Parse framework into the file; in every file you wish to use Parse, you're going to have to #import the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in. Don’t worry, we will make a sign up screen next.
 
 ```objective-c
 
@@ -100,21 +100,22 @@ Now navigate to loginViewController.m where we will get to work on implementing 
 
 ```
 
-Here you can see I’ve added a loggedIn BOOL to the instance variables of the class which is used to determine whether the login was successful when shouldPerformSegueWithIdentifier is called, if parse has successfully logged in we return yes which basically tells the app to segue to the next screen and the opposite if a login hasn't occured. Besides that I’ve just followed Parse’s login protocol as outlined in their docs, as this is a tutorial I will briefly explain what’s going on. 
+Here you can see I’ve added a loggedIn BOOL to the instance variables of the class, which is used to determine whether the login was successful when shouldPerformSegueWithIdentifier is called. If Parse has successfully logged in, we return yes, which basically tells the app to segue to the next screen. The opposite happens if a login hasn't occured. Besides that, I’ve just followed Parse’s login protocol as outlined in the docs. 
 
-For simplicity I’ve created some local NSStrings which relate to the text from the two textField properties as outlined in the .h file. From those I’ve called PFUser login, inputted the two variables and then used a block to determine the outcome of calling login. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error we set loggedIn to no and display an alert but if it’s successful we set loggedIn to YES and go ahead and call for a segue. 
+For simplicity, I’ve created some local NSStrings, which relate to the text from the two textField properties as outlined in the .h file. From those, I’ve called PFUser login, inputted the two variables, and then used a block to determine the outcome of calling login. This is all very simple and Xcode autocompletes the majority of the method. In the block, if there’s an error, we set loggedIn to NO and display an alert, but if it’s successful, we set loggedIn to YES and call for a segue. 
 
 Moving on!
 
-At the moment users can login and be presented with the newFriends view controller but it isn't currently possible for them to sign up, it's time to back-track and add some sign-up functionality. 
+At the moment, users can log in and be presented with the newFriends view controller, but it isn't currently possible for them to sign up. It's time to backtrack and add some sign-up functionality. 
 
-Head on over to signUpViewController.m and once again import the parse framework.
+Head on over to signUpViewController.m and once again import the Parse framework.
 
 ```objective-c
 #import <Parse/Parse.h>
 ```
 
-Now we will add some methods that are very similar to what we did in the login view controller, once again I’ve created some local NSString’s that are local copies of the text extracted from the username, password, screen name and age textfields.
+Now we will add some methods that are very similar to what we added in the login view controller. Once again, I’ve created some local NSStrings that are local copies of the text extracted from the username, password, screen name, and age textfields.
+
 ```objective-c
 
 	@implementation signUpViewController{
@@ -149,12 +150,11 @@ Now we will add some methods that are very similar to what we did in the login v
         return NO;
     	}
 	}
-	@end
-	
-```
-It’s good practice to run the code in the iOS simulator after each new feature has been added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added each new feature instead of trying to track them when you've finishing a project.
+	@end```
 
-There's already a small bug in place, back in the loginViewController our shouldPerformSegue method works on the condition of whether or not a login has occured. It's a given that if someone has pressed the signup button they're more than likely not going to have successfully signed up. We need to establish whether the segue is to sign up or the one that progresses to the main screen which requires a prior login, in the case of having two segues that we need to control we need to evaluate which segue is trying to occur. We can easily do this in the shouldPerform segue method by querying which identifier has been passed to the method. We now need to go back to loginViewController.m and edit the shouldPerformSegueWithIdentifier method to look something like this.
+It’s good practice to run the code in the iOS simulator after each new feature has been added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added each new feature rather than try to track them when you've finished an entire project.
+
+There's already a small bug in place; back in the loginViewController our shouldPerformSegue method works on the condition of whether or not a login has occured. It's a given that if someone has pressed the sign-up button, they're more than likely not going to have successfully signed up. We need to establish whether the segue is to sign up or the one that progresses to the main screen, which requires a prior login. In the case of having two segues that we need to control, we must evaluate which segue is trying to occur. We can easily do this in the shouldPerform segue method by querying which identifier has been passed to the method. We now need to go back to loginViewController.m and edit the shouldPerformSegueWithIdentifier method to look something like this:
 
 ```objective-c
 
@@ -171,11 +171,11 @@ There's already a small bug in place, back in the loginViewController our should
     
 }
 ```
-As you can see we've nested the previous if/else within another if/else. We first evaluate if the login segue in trying to occur by seeing if it's equal to the string 'loggedIn'. If that's the identifier we further evaluate if a login has occured to warrant the segue. If that isn't the identifier we simply return yes as there's no prerequisites for the signup screen. It's important to do this as we can't let people segue to the main screen before they've signed in, if we were to allow this and the signup was not successful our application would more than likely crash when we tried to query the current user. 
+As you can see, we've nested the previous if/else within another if/else. We first evaluate if the login segue is trying to occur by seeing if it's equal to the string 'loggedIn'. If that's the identifier, we further evaluate if a login has occurred to warrant the segue. If that isn't the identifier, we simply return YES, as there are no prerequisites for the sign-up screen. It's important to do this because we can't let people segue to the main screen before they've signed in. If we were to allow this and the sign-up was not successful, our application would more than likely crash when we tried to query the current user. 
 
-After testing this you will already recognise a small issue, although there’s nothing wrong with the code at this point, you will see that there is no way to dismiss the keyboard when attempting to press the login/signup buttons and the buttons aren't visible unless the keyboard is dismissed. It’s pretty simple to fix this, keep in mind that simple problems like this can make or a break an app!
+After testing this, you will notice a small issue: Although there’s nothing wrong with the code at this point, you will see that there is no way to dismiss the keyboard when attempting to press the login/sign-up buttons, nor are the buttons visible unless the keyboard is dismissed. It’s pretty simple to fix this; keep in mind that simple problems like this can make or a break an app.
 
-Add this method into both the loginViewController and signupViewController implementation files.
+Add this method into both the loginViewController and signupViewController implementation files:
 
 ```objective-c
 
@@ -186,7 +186,7 @@ Add this method into both the loginViewController and signupViewController imple
 	
 ```
 
-Go ahead and test this, you will find that it won’t work but there’s an easy fix to this! You need to set the delegate of the text fields to self(being the current view controller), this is an example of how to set the textField delegates from the login view controller.
+Go ahead and test this. You will find that it won’t work but there’s an easy fix. Set the delegate of the textFields to self (being the current view controller). This is an example of how to set the textField delegates from the login view controller.
 
 ```objective-c
 
@@ -197,23 +197,23 @@ Go ahead and test this, you will find that it won’t work but there’s an easy
 	
 ```
 
-I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are very important and it’s important to be familiar with them prior to starting the implementation of sinch into our project later on in the tutorial. 
+I chose to put the logic within the viewWillAppear method as it’s a given that the method will execute. Delegates are crucial and it’s important to be familiar with them prior to starting the implementation of Sinch into our project later on in the tutorial. 
 
-Now go ahead and do the same in the signup view controller, keep in mind that there's four text field's that need to have their delegates set. 
+Now go ahead and do the same in the signupViewController. Keep in mind that there four textFields that need to have their delegates set. 
 
-##Adding the multipeer connectivity framework
-Although we can login and signup at this point, there isn’t much else we can do. So, now it’s time to get to work. First we will find some friends using the multi-peer framework and then we will work out how to connect with them using the Sinch SDK. 
+##Adding the multi-peer connectivity framework
+Although we can log in and sign up at this point, there isn’t much else we can do. Now it’s time to get to work. First, we will find some friends using the multi-peer framework. Then we will work out how to connect with them using the Sinch SDK. 
 
-Before we get to work take a quick look at the storyboard, it's like our roadmap! From our login/signup view controllers you will see a navigation controller, embedded in our navigation controller is our view controller titled 'Chats' which is connected to the newFriends class. Both our multipeer and sinch frameworks will be implemented here. From there we have two view controllers, our call screen and our incoming call screen. Those should be pretty self explanatory, they're both connected to their respctive classes.  
+Before we get to work, take a quick look at the storyboard; it's like our roadmap. From our login/signup view controllers, you will see a navigation controller. Embedded in our navigation controller is our view controller titled “Chats,” which is connected to the newFriends class. Both our multi-peer and Sinch frameworks will be implemented here. From there, we have two view controllers: our call screen and our incoming call screen. Those should be pretty self-explanatory; they're both connected to their respective classes.  
 
 ![overview screens](images/storyboard.png)
 
-The first step to adding multi peer connectivity is to add the framework, this can be done in the same place we added all of those frameworks earlier on. Once you’ve done that head over to newFriends.m and import the framework into the file, like this
+To add multi-peer connectivity, add the framework. This can be done in the same place we added all of those frameworks earlier on. Once you’ve done that, head over to newFriends.m and import the framework into the file, like this:
 ```objective-c
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 ```
 
-First we need to create some properties in the interface section of newFriends.m as you can see here, these are all pretty essential to use the multipeer connectivity framework.
+Next, we need to create some properties in the interface section of newFriends.m. As you can see here, these are all essential to use the multi-peer connectivity framework.
 
 ```objective-c
 	@interface newFriends ()
@@ -224,40 +224,41 @@ First we need to create some properties in the interface section of newFriends.m
 	@end
 ```
 	
-Here’s a quick run-down of what each property is used for
+Here’s a quick rundown of what each property is used for:
+
 MCAdvertiserAssistant
-Makes your device visible to others whilst also managing incoming connections.
+Makes your device visible to others while also managing incoming connections
 
 MCSession
-Enables and manages connections between your device and your peer’s device.
+Enables and manages connections between your device and your peer’s device
 
 MCPeerID
-A reference for a peer in a session.
+A reference for a peer in a session
 
 MCBrowserViewController
-A ready-made view controller provided by apple which will present a list of nearby users and allow you to make the connnections.
+A ready-made view controller provided by Apple that will present a list of nearby users and allow you to make the connections
 
-At this point you will need to head over to the newFriend.h file and set this class as a delegate for the MCBrowserViewController and MCSession. This can be achieved by modifying the following line in newFriend.h from this 
+At this point, you will need to head over to the newFriend.h file and set this class as a delegate for the MCBrowserViewController and MCSession. This can be achieved by modifying the following line in newFriend.h from this: 
 ```objective-c
 	
 	@interface newFriends : UITableViewController
 	
 ```
 
-To this
+to this:
 
 ```objective-c
 	@interface newFriends : UITableViewController <MCBrowserViewControllerDelegate, MCSessionDelegate>
 ```
 	
-Easy! (all we're doing is saying that the newFriends class conforms to the delegate protocol)
+See how easy? All we're doing is saying that the newFriends class conforms to the delegate protocol.
 
-Now you will see a heap of new warnings to let us know that we haven’t yet implemented the delegate methods, don’t worry as that’s our next step.
+Now you will see a heap of new warnings to notify us that we haven’t yet implemented the delegate methods. Don’t worry; that’s our next step.
 
 If you're struggling with the delegate concept, here's a quick example.
-	Imagine you ask your friend Joe how much he likes using Sinch, obviously he likes it a lot but he has no way of getting the information to you. In this scenario a delegate would be used, the delegate would wait for Joe to say how much he enjoyed it and then bring the information back and take any neccessary action based on the reply.
+	Imagine you ask your friend Joe how much he likes using Sinch. Obviously he likes it a lot, but he has no way of getting the information to you. In this scenario, a delegate would be used. The delegate would wait for Joe to say how much he enjoyed it and then bring the information back and take any necessary action based on the reply.
 
-Here’s all the delegate methods we need to implement with a brief description of each below.
+Here are all the delegate methods we need to implement with a brief description of each below:
 
 ```objective-c
 	- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{  
@@ -284,7 +285,7 @@ Called when the device receives data from a peer
 	
 ```
 
-Called when the device receives a stream from a peer.
+Called when the device receives a stream from a peer
 
 ```objective-c
 	- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress {
@@ -319,7 +320,7 @@ Called when the user chooses a peer to connect to
 Called when the user cancels the MCBrowserViewController
 
 
-Whilst still in newFriends.m add this method above the delegate methods.
+While still in newFriends.m, add this method above the delegate methods:
 
 ```objective-c 
 	- (void)setUpConnection {
@@ -333,35 +334,36 @@ Whilst still in newFriends.m add this method above the delegate methods.
 	}
 ```
 
-Here we get the current PFUser object from parse and from that we get the screenName as set by the user when s, instead of displaying the device name we can display the users name which is far more personalised and can be changed as different users login. We then set the peerId display name equal to our screenName variable.
+Here we get the current PFUser object from Parse, and from that we get the screenName as set by the user. Instead of displaying the device name, we can display the user’s name, which is far more personalized and can be changed as different users log in. We then set the peerId display name equal to our screenName variable.
 
-We now need to go ahead and create a session, add this code to the bottom of the method we created above.
+Now we can go ahead and create a session. Add this code to the bottom of the method we created above.
 
 ```objective-c
 	  self.session = [[MCSession alloc] initWithPeer:self.peerId];
     		 self.session.delegate = self; 
 ```
 
-Here we’re simply using the session property we created in the @interface of the file, allocating and calling initWithPeer and using the peerId we previously created. Then we go ahead and set the delegate equal to self so that we’re able to get information from the session.
+Here we’re simply using the session property we created in the @interface of the file, allocating and calling initWithPeer and using the peerId we previously created. Then we can go ahead and set the delegate equal to self so that we’re able to get information from the session.
 
-There’s one last step to finish off this method, we need to put everything together and create a browserViewController. Here’s how simple it is!
+There’s one last step to finish off this method: We need to put everything together and create a browserViewController. Here’s how simple it is:
+
 ```objective-c
 	self.browserViewController = [[MCBrowserViewController alloc] 			initWithServiceType:@"sinchMulti" session:self.session];
 	self.browserViewController.delegate = self;
        
 ```
-We’ve allocated and called initWithService, we’ve used the name sinchMulti for this project, then we’ve simply gone ahead and set the session equal to the session we created earlier. Once again we’ve set the delegate to self so we can be informed of what’s going on.
+We’ve allocated and called initWithService and we’ve used the name sinchMulti for this project. Then we’ve simply gone ahead and set the session equal to the session we created earlier. Once again, we’ve set the delegate to self so we can be informed of what’s going on.
 
-Although now we can find other users there’s one thing we’ve forgotten, it isn’t much fun if people can’t find us is it? Let’s go ahead and make our device discoverable, for this we need to use the advertiserAssistant. Once again we’re going to add it on to the bottom of the setUpConnection method.
+Although now we can find other users, there’s one thing we’ve forgotten: it isn’t much fun if people can’t find us, is it? Let’s go ahead and make our device discoverable. For this we need to use the advertiserAssistant. Once again, we’re going to add it on to the bottom of the setUpConnection method.
 
 ```objective-c
 	self.advertiserAssistant = [[MCAdvertiserAssistant alloc] 						initWithServiceType:@"sinchMulti" discoveryInfo:nil session:self.session];
     [self.advertiserAssistant start]; 
 ```
  
-This is some really simple code, once again we’re allocating and calling initWithService which we did earlier, we’ve set the discoverInfo to nil and yet again we’ve associated our session we already created with the advertiserAssistant. The last line of code is probably the easiest part of this tutorial and I think it’s pretty self explanatory :P
+This is some really simple code, and we’re allocating and calling initWithService, which we did earlier. We’ve set the discoverInfo to nil and associated our session we already created with the advertiserAssistant. The last line of code is probably the easiest part of this tutorial and is hopefully pretty self-explanatory.
 
-The finished setUpConnection method should look like this.
+The finished setUpConnection method should look like this:
 
 ```objective-c
 		- (void)setUpConnection {
@@ -380,7 +382,7 @@ The finished setUpConnection method should look like this.
 	}	
 ```
 
-This code is looking pretty good, there’s only one small problem. Can you see it? If you said this code isn’t being executed because nowhere in the code has it been called you’re correct! It’s best to call this method from viewDidLoad, as I mentioned earlier it’s a given that this method is going to be called.
+This code is looking pretty good; there’s only one small problem. Can you see it? If you said this code isn’t being executed because nowhere in the code has it been called, you’re correct! It’s best to call this method from viewDidLoad, as I mentioned earlier, it’s a given that this method is going to be called.
 
 ```objective-c
 		- (void)viewDidLoad {
@@ -389,9 +391,9 @@ This code is looking pretty good, there’s only one small problem. Can you see 
 		}	
 ```
 
-As you can probably see there's an error relating to the username property not being declared, go ahead and declare it in the @interface of newFriends.m, make it of type NSString and weak/nonatomic. This property will be used throughout the software so it's best to have it globally accessible. 
+As you can probably see, there's an error relating to the username property not being declared. Go ahead and declare it in the @interface of newFriends.m, make it of type NSString and weak/nonatomic. This property will be used throughout the software so it's best to have it globally accessible. 
 
-We’ve made some good progress but currently there’s no way to present the browserViewController, we’ve included a + bar button in the template file and connected an action to it. In the method simply include this code to present the browserViewController when the button is triggered.
+We’ve made some good progress, but currently there’s no way to present the browserViewController. We’ve included a + bar button in the template file and connected an action to it. In the method, simply include this code to present the browserViewController when the button is triggered.
 
 ```objective-c
 	- (IBAction)findFriends:(id)sender {
@@ -400,19 +402,19 @@ We’ve made some good progress but currently there’s no way to present the br
 	}
 ```
 ##Sending data
-Now we’ve established a connection between the device we need a way to exchange usernames and then connect the two devices using sinch. First we will send the two usernames and have iOS handle the data and create a conversation for us.
+Now that we’ve established a connection between the device, we need a way to exchange usernames and then connect the two devices using Sinch. First, we will send the two usernames and have iOS handle the data and create a conversation for us.
 
-With the multiplier framework we can send three types of data. Messages which are short pieces of text, streams that allow data such audio or video to be continuously sent real-time and resources which are local images, movies or documents. For the purpose of this tutorial we will be sending a message, contained in this message will be each users username. Although we could solely use the multipeer framework to chat, once you were to move out of range from the other device your connection would be lost and you’d have no way to connect with them :( That’s why we’re using Sinch.
+With the multi-peer framework, we can send three types of data. Messages, which are short pieces of text; streams, which allow data such as audio or video to be continuously sent real-time; and resources, which are local images, movies, or documents. For the purpose of this tutorial, we will be sending a message that contains each users username. Although we could solely use the multi-peer framework to chat, once you were to move out of range from the other device, your connection would be lost and you’d have no way to connect with the other user. That’s why we’re using Sinch.
 
-If you go ahead and hit the + button you should be presented with the browserViewController, you may also notice that there’s no way to get back to the original view. This can easily be fixed by adding in the dismissViewController method into the two delegate methods of browserViewController in the newFriends.m file. Make sure to add this line of code to both methods.
+If you go ahead and hit the + button, you should be presented with the browserViewController. You may also notice that there’s no way to get back to the original view. We can fix this by adding in the dismissViewController method into the two delegate methods of browserViewController in the newFriends.m file. Make sure to add this line of code to both methods:
 
 ```objective-c
 	[self.browserViewController dismissViewControllerAnimated:YES completion:nil];
 ```
 
-There’s two delegate methods here, one that is called when the browserViewController is canceled and one when the user presses the done button. Initially the done button is disabled and only enabled when the user connects to another device. 
+There are two delegate methods here: One that is called when the browserViewController is canceled and one when the user presses the Done button. Initially, the Done button is only enabled when the user connects to another device. 
 
-We’re now going to head over and do some minor editing to the delegate method didChangeState.
+Now we’re going to head over and do some minor editing to the delegate method didChangeState.
 
 ```objective-c
 	- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
@@ -422,7 +424,7 @@ We’re now going to head over and do some minor editing to the delegate method 
 }
 ```
 
-What we’re doing here is seeing if the change to state is a connection being made, if it is then we want to call the method sendUsername and pass along the PeerId of that user. Go ahead and declare the sendUsername method, make it return void and of course make it take a single MCPeerID variable.
+Here we are seeing if the change to state is a connection being made. If it is, then we want to call the method sendUsername and pass along the PeerId of that user. Go ahead and declare the sendUsername method, make it return void, and, of course, make it take a single MCPeerID variable.
 
 ```objective-c
 	- (void)sendUsername:(MCPeerID *)peerID {
@@ -430,7 +432,7 @@ What we’re doing here is seeing if the change to state is a connection being m
 	}
 ```
 
-Now let’s add some logic to the method. Just to be clear, we want to send out own username from parse so that the recipient is then able to connect and send us message through sinch and vice versa. Add this code…
+Now let’s add some logic to the method. Just to be clear, we want to send our own username from Parse so that the recipient is then able to connect and send us message through Sinch and vice versa. Add this code:
 
 ```objective-c
 
@@ -445,17 +447,11 @@ Now let’s add some logic to the method. Just to be clear, we want to send out 
     }
 ```
 
-First we create an instance of PFUser (parse) and get a reference to the current user, from this we get the username and store it in a local NSString. We then create a NSData object and store the username in it. From this we create a mutable array, store the peerID of the intended recipient in it and the call the sendData method. Notice we’ve opted for MCSessionSendDataReliable for the mode, this simply means it will take a little longer to transmit the data but there’s little chance of the data being lost in transit! We’re only transmitting a few bytes of data so there isn’t much to worry about. Now that we’re transmitting data, we need to make sure that we’re also equipped to receive any data sent out way.
+First, we create an instance of PFUser (Parse) and get a reference to the current user. From this, we get the username and store it in a local NSString. We then create a NSData object and store the username in it. Next, we create a mutable array, store the peerID of the intended recipient in it, and call the sendData method. Notice we’ve opted for MCSessionSendDataReliable for the mode; this simply means it will take a little longer to transmit the data, but there’s little chance of the data being lost in transit. We’re only transmitting a few bytes of data so there isn’t much to worry about. 
 
+Now that we’re transmitting data, we need to make sure that we’re also equipped to receive any data sent our way.
 
-
-
-
-
-
-
-
-As we’re making this app we can expect the only data that’s going to be sent our way is a single userId although keep in mind some applications could have many different variables being transmitted. There’s a delegate method already in our .m file that we can use to manage received data. Head over to the didReceiveData delegate method and we will work from there.
+As we’re making this app, we can expect the only data sent our way to be a single userId, but keep in mind some applications could have many different variables being transmitted. There’s a delegate method already in our .m file that we can use to manage received data. Head over to the didReceiveData delegate method and we will work from there.
 
 ```objective-c 
 
@@ -464,7 +460,7 @@ As we’re making this app we can expect the only data that’s going to be sent
 			}
 ```
 
-Now add this logic into the method.
+Now add this logic into the method:
 
 ```objective-c
 
@@ -473,7 +469,7 @@ Now add this logic into the method.
 			[self createFriend:username];
 ```
 
-As you can see we’ve added yet another method, createFriend which is used to fetch extra details from parse and create a friend using those objects. Here’s the createFriend method. Although you may think at this point, what friend object? Ahh, the one we’re about to create, create a new class of type NSObject and name it friend. Add these three properties in the .h file.
+As you can see, we’ve added yet another method, createFriend, which is used to fetch extra details from Parse and create a friend using those objects. Here’s the createFriend method, although at this point you may think, what friend object? Ahh, the one we’re about to create! Create a new class of type NSObject and name it friend. Add these three properties in the .h file:
 
 ```objective-c
 
@@ -482,9 +478,10 @@ As you can see we’ve added yet another method, createFriend which is used to f
 			@property (nonatomic) int age;
 ```
 
-Make sure the two NSString properties are set to 'retain' or else your data will dissapear into thin air along with your friends. 
+Make sure the two NSString properties are set to “retain,” or else your data will disappear into thin air along with your friends. 
 
-Now we’re ready to go back and create the createFriend method which utilises our new class, remember to #import the new class or else you might have a bit of trouble.
+Now we’re ready to go back and create the createFriend method, which uses our new class. Remember to #import the new class or else you might have a bit of trouble.
+
 ```objective-c
 
 			- (void)createFriend:(NSString *)username {
@@ -500,7 +497,11 @@ Now we’re ready to go back and create the createFriend method which utilises o
 	}
 ```
 
-First we create an instance of friend, then we set the username property on the friend object, at the current point in time that’s the only variable we know the valuable of. We then go on to create a query, Why? Well we’ve got the username so we’re now able to get the rest of that users information directly from parse. We do this by specifying that we want the username key to be equal to our friends username. We then call getFirstObject and store it in a local PFObject, it’s expected that there’s only going to one object matching our query parameters so it makes sense to only get the first. We then go ahead and assign the rest of the variables for the friend object. At the bottom of our method you can see a line of code which we haven't yet encountered. This code is calling reloadData which is an inbuilt method for our tableview. If we called [self.tableView reloadData] it wouldn't automatically reload and refresh the data, because of this it's important to perform a selector on the main thread. This is all very good but there’s one thing missing… Do you know what it is? There should be an error warning you about it, as you can see there's no friends array to store our friends. Let's go ahead and make that now or else we're going to be saving those friends into thin air. We can create an array as a property like this at the top of our .m file in the @interface section.
+First, we create an instance of friend, then we set the username property on the friend object. At the current point in time, that’s the only variable we know the value of. We then go on to create a query. Why? Well we’ve got the username, so we’re now able to get the rest of that users information directly from Parse. We do this by specifying that we want the username key to be equal to our friend’s username. We then call getFirstObject and store it in a local PFObject. It’s expected that there’s only going to be one object matching our query parameters, so it makes sense to only get the first. 
+
+We then go ahead and assign the rest of the variables for the friend object. At the bottom of our method, you can see a line of code that we haven't yet encountered. This code is calling reloadData, which is an inbuilt method for our tableview. If we called [self.tableView reloadData], it wouldn't automatically reload and refresh the data. Because of this, it's important to perform a selector on the main thread. 
+
+This is all very good but there’s one thing missing. Do you know what it is? There should be an error warning you about it, as you can see there's no friends array to store our friends. Let's go ahead and make that now or else we won’t be saving those friends anywhere. We can create an array as a property like this at the top of our .m file in the @interface section:
 
 ```objective-c  
 
@@ -510,7 +511,7 @@ First we create an instance of friend, then we set the username property on the 
 	  @end
 ```
 	  
-Now we must use the viewDidLoad method to allocate the memory and initialise the object so it’s ready for use, if we don’t then we won’t have many friends sticking around. The best place to do this is in the viewDidLoad method.
+Now we must use the viewDidLoad method to allocate the memory and initialize the object so it’s ready for use. If we don’t, then we won’t have many friends sticking around. The best place to do this is in the viewDidLoad method:
 
 ```objective-c
 
@@ -520,23 +521,23 @@ Now we must use the viewDidLoad method to allocate the memory and initialise the
 		}
 ```
 	
-Now the easy bit, at the end of the createFriend method add this easy one liner!
+Now for the easy bit. At the end of the createFriend method, add this easy one liner:
 
 ```objective-c
 
 	[_friends addObject:newFriend];
 ```
 
-Now that we’ve got some friends it’s time to make them visible! As you can already see we’ve got a table view which has prototype cells that are made to do the job, all we have to do is set delegates and present the data to our table view. Firstly in newFriends.h we need to set the delegates, modify the @interface line to match this.
+Now that we’ve got some friends, it’s time to make them visible. As you can already see, we’ve got a table view that has prototype cells that are made to do the job. All we have to do is set delegates and present the data to our table view. In newFriends.h, set the delegates and modify the @interface line to match this:
 
 ```objective-c
 
 		@interface newFriends : UITableViewController <UITableViewDataSource, 				UITableViewDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate>
 ```
 		
-As you can see we’ve made two additions, we’ve set this class as the Data source and the delegate for our table view. Now we can move over and start modifying the .m counterpart. 
+As you can see, we’ve made two additions. We’ve set this class as the Data source and the delegate for our table view. Now we can move over and start modifying the .m counterpart. 
 
-We need to implement two delegate methods to feed data to the view controller. First we can implement numberOfRowsInSection, for this we simply need to return the number of rows we will need in the table view which will be determined by the number of friends we’ve got.
+We need to implement two delegate methods to feed data to the view controller. First we can implement numberOfRowsInSection. For this we simply need to return the number of rows we will need in the table view, which will be determined by the number of friends we’ve got.
 
 ```objective-c
 
@@ -547,6 +548,7 @@ We need to implement two delegate methods to feed data to the view controller. F
 ```
 			
 That’s the simple part! Next we’ve got to implement the delegate method cellForRowAtIndexPath. This method is called to set up each individual cell. Implement it like so!
+
 ```objective-c
 
 		- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:			(NSIndexPath *)indexPath
@@ -565,19 +567,17 @@ That’s the simple part! Next we’ve got to implement the delegate method cell
 	}
 ```
 
-Everything that’s being done here is pretty standard objective c, take note that we’re bringing a ‘friend’ object into memory from the friends array. We’re able to access the specific friend object by its index in the friends array, we’re using indexPath.row to access each index.
+Everything that’s being done here is pretty standard Objective-C. Take note that we’re bringing a “friend” object into memory from the friends array. We’re able to access the specific friend object by its index in the friends array and we’re using indexPath.row to access each index.
 
-add frameworks for sinch 
-Set delegates on call screen and import framework in .h file
 ##Implementing Sinch
-By now we’ve got friends in our friends array, we’re able to display them and now we need to work on making contact. We will be doing this with Sinch, the first thing to do is sign up for Sinch if you don’t already have an account. Once you’ve got an account simply access the dashboard and create a new project, make sure that once you’ve created the project you take note of the specific project keys. 
+By now we’ve got friends in our friends array. We’re able to display them and thus we need to work on making contact using Sinch. The first thing to do is sign up for Sinch, if you don’t already have an account. Once you’ve got an account, simply access the dashboard and create a new project. Make sure that once you’ve created the project you take note of the specific project keys. 
 
-We already added the framework through cocoapods at the beginning so there's no need to add it again, there's the option to download the Sinch framework from the website and install it manually. Be aware that you will need to modify the 'Other Linker flags' in your build settings to ‘-ObjC -Xlinker -lc++’. Cocoapods make it easier to add these frameworks as we don't have to make the linker flags modification and we're able to add the frameworks all at once.
+We already added the framework through CocoaPods at the beginning, so there's no need to add it again. There's the option to download the Sinch framework from the website and install it manually. Be aware that you will need to modify the “Other Linker flags” in your build settings to ‘-ObjC -Xlinker -lc++’. CocoaPods make it easier to add these frameworks as we don't have to make the linker flags modification and we're able to add the frameworks all at once.
 
 
-Now we’re ready to get to work implementing Sinch into our project. First we need to establish where the implementation for Sinch should be made. In this project it makes the most sense to put all of the Sinch methods in the newFriends class and the have it act as a delegate to other classes. The two other classes that are going to delegate back to newFriends are callView and incomingCall. First we need to implement all of the delegate methods for Sinch into the newFriends.m file but once again before we do it’s essential to #import <Sinch/Sinch.h>.
+Now we’re ready to get to work implementing Sinch into our project. First, we need to establish where the implementation for Sinch should be made. In this project, it makes the most sense to put all of the Sinch methods in the newFriends class and the have it act as a delegate to other classes. The two other classes that are going to delegate back to newFriends are callView and incomingCall. We need to implement all of the delegate methods for Sinch into the newFriends.m file, but once again, before we do, it’s essential to #import <Sinch/Sinch.h>.
 
-Now we need to initiate the Sinch client, in viewDidLoad call [self setupSinch]; and create a method named setupSinch which returns void. Before we go any further create an instance variable of type id as outlined below.
+Now we need to initiate the Sinch client in viewDidLoad call [self setupSinch] and create a method named setupSinch, which returns void. Before we go any further, create an instance variable of type ID as outlined below.
 
 ```objective-c
 
@@ -600,19 +600,19 @@ Now we can finish off the setupSinch method.
 	}
 ```
 
-This is standard client implementation for sinch, first we set _client equal to our application and application secret keys which can be obtained from the Sinch dashboard. For testing purposes all apps will be in the environmentHost of sandbox.sinch.com.
+This is standard client implementation for Sinch. First we set _client equal to our application and application secret keys, which can be obtained from the Sinch dashboard. For testing purposes, all apps will be in the environmentHost of sandbox.sinch.com.
 
-We also set the client userId equal to the _username property. This property is set when we call setupConnection in viewDidLoad, refer back to that method if you don’t understand. Next we set the delegate and then set support calling to YES, if we we were going to allow instant messaging within our app we would call [_client setSupportMessaging:YES];. We would then start the client and begin listening for incoming calls!
+We also set the client userId equal to the _username property. This property is set when we call setupConnection in viewDidLoad; refer back to that method if you don’t understand. Next, we set the delegate and then set support calling to YES. If we were going to allow instant messaging within our app, we would call [_client setSupportMessaging:YES]. We would then start the client and begin listening for incoming calls.
 
-Now that we’ve moved on to the implementation of Sinch, let’s work out the easiest way to work through the problems in front of us. Here’s the functionality we need to add…
+Now that we’ve moved on to the implementation of Sinch. Let’s figure the easiest way to work through the problems in front of us. Here’s the functionality we need to add:
 
 * Making calls to selected user
 * Answering calls from other users
 * Declining calls from other users
 
-Let’s first work on making calls, to do this we’re going to allow users to select a user from the friends table view. From there a segue will occur and the user will be presented with the callScreen view controller. From there we will need to set some properties before the view controller is presented and then set some delegates so that our users are able to hang up. 
+Let’s focus on making calls. To do this, we’re going to allow users to select a user from the friends table view. From there, a segue will occur and the user will be presented with the callScreen view controller. Then, we will need to set some properties before the view controller is presented and set some delegates so that our users are able to hang up. 
 
-To allow users to select a friend from the table view controller we need to implement the delegate method didSelectRowAtIndexPath. Before we go ahead and implement the delegate method it’s best to plan out what needs to be done in plain english for a better understanding. First when the user selects the table view cell, a method will be called to present the callScreen view controller with the status set as calling. From the newFriends view controller we will then have to call some Sinch delegate methods, first we will have to create a callUser method and then we will have to check wether the callDidEstablish method is called and if it is then we will want to change the status of the call. Before moving forward let’s import the callScreen view controller as we’re going to need to access that when performing segues, we also need to create an instance variable for the call!
+To allow users to select a friend from the table view controller, we need to implement the delegate method didSelectRowAtIndexPath. Before we go ahead and implement the delegate method, it’s best to plan out what needs to be done in plain English for a better understanding. When the user selects the table view cell, a method will be called to present the callScreen view controller with the status set as calling. From the newFriends view controller, we will then have to call some Sinch delegate methods. Now we will have to create a callUser method and then check whether the callDidEstablish method is called. If it is, we will want to change the status of the call. Before moving forward, let’s import the callScreen view controller as we’re going to need to access that when performing segues. We also need to create an instance variable for the call.
 
 ```objective-c
 
@@ -625,7 +625,8 @@ To allow users to select a friend from the table view controller we need to impl
 	}
 ```
 
-Notice that we just added the _call variable to our project, this will be our go to reference when making calls. Now it’s time to implement didSelectRowAtIndex.
+Notice that we just added the _call variable to our project. This will be our go-to reference when making calls. Now it’s time to implement didSelectRowAtIndex.
+
 ```objective-c
 
 	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -640,7 +641,7 @@ Notice that we just added the _call variable to our project, this will be our go
     [self placeCall:friendToCall.username];
 	}
 ```
-Most of this should make sense but i’ll briefly summarise it for those that don’t. Firstly we get a friend object from the _friends array by using the array index which should align with indexPath.row. We then create a reference to our storyboard, create an instance of our newCall view controller and instantiate it with the view controller ID from our storyboard. We then present and set up our view controller. You will see a new method at the bottom, that should be throwing an error at the moment so let’s create that method and clear that error.
+Most of this should make sense but I’ll briefly summarize it for those who don’t understand. Firstly, we get a friend object from the _friends array by using the array index, which should align with indexPath.row. We then create a reference to our storyboard, create an instance of our newCall view controller, and instantiate it with the view controller ID from our storyboard. We then present and set up our view controller. You will see a new method at the bottom; that should be throwing an error at the moment, so let’s create that method and clear that error.
 
 ```objective-c
 
@@ -649,7 +650,7 @@ Most of this should make sense but i’ll briefly summarise it for those that do
     		_call.delegate = self;
 	}
 ```
-This is a really simple method and all pretty self explanatory, but once we make this call what happens? How do we know if we’re connected or not? Well, lucky for us there’s three delegate methods we can use to establish what’s happening! These three methods are callDidProgress, callDidEstablish and callDidEnd. Go ahead and add all of these methods to the newFriends.m file.
+This is a simple method, but once we make this call, what happens? How do we know if we’re connected or not? Well, lucky for us, there are three delegate methods we can use to establish what’s happening. These three methods are callDidProgress, callDidEstablish, and callDidEnd. Go ahead and add all of these methods to the newFriends.m file.
 
 ```objective-c
 
@@ -664,13 +665,17 @@ This is a really simple method and all pretty self explanatory, but once we make
 	}
 ```
 
-Call did progress is where you could play a ring tone or update the UI, feel free to do that as we won’t be delving into anything of that sort today! We will however make some modifications to the other two delegate methods. First we need to work out a way to access the instance of callScreen from anywhere within our code, how do we do this? The best/easiest way would be to make a property for callScreen. Go ahead and make a property in newFriends.m for callScreen, make it weak!
+CallDidProgress is where you could play a ringtone or update the UI; feel free to do that as we won’t be delving into anything of that sort today. 
+
+We will, however, make some modifications to the other two delegate methods. First, we need to work out a way to access the instance of callScreen from anywhere within our code. How do we do this? The best and easiest way would be to make a property for callScreen. Go ahead and make a property in newFriends.m for callScreen. Make it weak.
+
 ```objective-c
 
 	@property (nonatomic, weak) callScreen *theNewCallScreen;
 ```
 
 Now we need to go back to didSelectRowAtIndexPath and use the property instead of local variable to declare the callScreen view controller. 
+
 ```objective-c
 
 	- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -696,7 +701,8 @@ Now we’re ready to head back over and start working with callDidEstablish.
 ```
 Here we’re simply changing the status when the call is connected, easy stuff!
 
-Now let’s work with callDidEnd. There’s two occasions when this method could be called, when the other user ends the call or when this particular user ends the call. Let’s work on the first scenario.
+Now let’s work with callDidEnd. There are two occasions when this method could be called: When the other user ends the call or when this particular user ends the call. Let’s work on the first scenario.
+
 ```objective-c
 
 	- (void)callDidEnd:(id<SINCall>)call {
@@ -706,25 +712,27 @@ Now let’s work with callDidEnd. There’s two occasions when this method could
 	}
 ```
 
-Here we’re saying that if the newCall view controller does NOT equal nil then go ahead and dismiss it. Now we need to figure out what to do if the local users decides to end the call. Go ahead and add an ‘else’ condition that simply calls return. Why? Well if the newCall screen already equals nil there isn’t much point trying to dismiss it again. 
+Here we’re saying that if the newCall view controller does NOT equal nil, then go ahead and dismiss it. Now we need to figure out what to do if the local users decides to end the call. Go ahead and add an “else” condition that simply calls return. Why? Well, if the newCall screen already equals nil, there isn’t much point trying to dismiss it again. 
 
-Now let’s figure out what to do if the user decides to hang up in the callScreen view controller. Here it makes the most sense to use a delegate method. Head over to callScreen.m and let’s start modifying the hangUp method which we’ve already connected to the button in your storyboard.
+Let’s figure out what to do if the user decides to hang up in the callScreen view controller. Here it makes the most sense to use a delegate method. Head over to callScreen.m and start modifying the hangUp method, which we’ve already connected to the button in your storyboard.
 
 
-In the hangUp method call hangUp on self.delegate like this…
+In the hangUp method call hangUp on self.delegate like this:
+
 ```objective-c
 
 	[self.delegate hangUp];
 ```
-Of course at this point there will be a number of errors, not to worry it’s a work in progress. 
+Of course, at this point, there will be a number of errors. Not to worry, it’s a work in progress. 
 
-Now in the callScreen.h we need to finish implementing the delegate. Make a property of type id, weak and named delegate. 
+Now in the callScreen.h, we need to finish implementing the delegate. Make a property of type ID, weak, and named delegate. 
+
 ```objective-c
 
 	@property (nonatomic, weak)  id<callScreenDelegate>delegate;
 ```
 
-Once again an error will appear as we haven’t yet implemented the callScreenDelegate protocol, go ahead and declare the protocol below the #import in callScreen.h with the single hangUp method.
+Once again an error will appear because we haven’t yet implemented the callScreenDelegate protocol. Go ahead and declare the protocol below the #import in callScreen.h with the single hangUp method.
 
 ```objective-c
 
@@ -741,7 +749,7 @@ Now we need to modify the @interface line in newFriends.h to declare that this c
 	@interface newFriends : UITableViewController <UITableViewDataSource, 				UITableViewDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, 					SINCallClientDelegate, SINCallDelegate, callScreenDelegate>
 ```
 
-Head over to the .m counterpart and implement the hangUp method. There’s two things that this method will need to achieve, firstly it will need to call hangup with Sinch and secondly it’ll need to dismiss the callScreen view controller. Here’s what the hangUp method should look like in newFriends.m.
+Head over to the .m counterpart and implement the hangUp method. There are two things that this method will need to achieve: One, it will need to call hangUp with Sinch and two, it’ll need to dismiss the callScreen view controller. Here’s what the hangUp method should look like in newFriends.m:
 
 ```objective-c
 
@@ -750,26 +758,28 @@ Head over to the .m counterpart and implement the hangUp method. There’s two t
     		[_theNewCallScreen dismissViewControllerAnimated:YES completion:nil];
 	}
 ```
-Hanging up the call is easy as! From there we simply call dismissViewController on theNewCallScreen so that we’re back to our table view controller. 
+Hanging up the call is easy as pie! From there we simply call dismissViewController on theNewCallScreen so that we’re back to our table view controller. 
 
-As amazing as all this is, there’s one thing that we can’t do and it severely limited our application. Now it’s time to put the icing on the cake by allowing users to answer calls. Add the following method to newFriends.m
+As amazing as all this is, there’s one thing that we can’t yet do and it severely limits our application: allow users to answer calls. Add the following method to newFriends.m:
+
 ```objective-c
 
 		- (void)client:(id<SINCallClient>)client didReceiveIncomingCall:(id<SINCall>)call 	{
     
 	}
 ```
-Before we implement the rest of the code to make the magic happen there’s some groundwork to cover. For this we will need to #import incomingCall.h, we’ve been nice enough to create the class and connect it to the relevant storyboard for you already!
+Before we implement the rest of the code, there’s some groundwork to cover. For this we will need to #import incomingCall.h. We’ve been nice enough to create the class and connect it to the relevant storyboard for you already.
 
-When there’s an incoming call we’re going to present the incomingCall view controller, from there the user will be given the option to either answer or decline the call. The answer and decline function will once again be implemented using delegates, if a user chooses to answer a call we will go ahead and present the callScreen!
+When there’s an incoming call, we’re going to present the incomingCall view controller. From there, the user will be given the option to either answer or decline the call. The answer and decline function will once again be implemented using delegates. If a user chooses to answer a call, we will go ahead and present the callScreen.
 
-Within didReceiveIncomingCall let’s first do the essentials, we need to set delegates! Go ahead and set the delegates for _call!
+Within didReceiveIncomingCall, let’s handle the essentials. We need to set delegates, so go ahead and set the delegates for _call.
+
 ```objective-c
 
 		call.delegate = self;
     		_call = call;
 ```
-Although this code performs a function it doesn't do what we need it to do. Ideally we want to present the incoming call screen and display exactly who's calling us. We could easily present the username of the user calling us by accessing the remoteUserId property on the call object although it would be far more personalised if we could display the users real name. We're now going to do a simple parse query to find the name that matches our friends username. Add this code into the didReceiveIncomingCallMethod.
+Although this code performs a function, it doesn't do what we need it to do. Ideally, we want to present the incoming call screen and display exactly who's calling us. We could easily present the username of the user calling us by accessing the remoteUserId property on the call object, although it would be far more personalized if we could display the user’s real name. We're going to do a simple Parse query to find the name that matches our friend’s username. Add this code into the didReceiveIncomingCallMethod:
 
 ```objective-c
 
@@ -782,16 +792,16 @@ Although this code performs a function it doesn't do what we need it to do. Idea
                     }
     }];
 ```
-Within this method we're querying parse and searching for a user object that has a matching username to the user that's calling us. As you can see we're sourcing the username from the remoteUserId property on the call object. Then we run a block and if there isn't an error we get the screen name of the user and store it in a NSString object. In the next line we're calling a method that we send the name of the caller to. Although you may think this is a strange place to call a method which presents the incomingCall screen it's the most logical, we don't want to present the incomingCall screen unless we know what the users name is so we wait until after we've got that from parse to present the next screen. Although there will be a small lag whilst the query is taking place it's nothing major and adds to the user experience.
+Within this method, we're querying Parse and searching for a user object that has a matching username to the user that's calling us. As you can see, we're sourcing the username from the remoteUserId property on the call object. Then we run a block, and if there isn't an error, we get the screen name of the user and store it in a NSString object. In the next line, we're calling a method that we send the name of the caller to. Although you may think this is a strange place to call a method that presents the incomingCall screen, it's the most logical. We don't want to present the incomingCall screen unless we know what the user’s name is, so we wait until after we've received that from Parse to present the next screen. Although there will be a small lag whie the query is taking place, it's nothing major and adds to the user experience.
 
-Go ahead and declare the presentIncomingCallScreen method below the didReceiveIncomingCall method in the newFriends.m file. Remember it's going to need to take one variable, a NSString and it won't need to return anything so make it void. The method should look something like this. 
+Go ahead and declare the presentIncomingCallScreen method below the didReceiveIncomingCall method in the newFriends.m file. Remember it's going to need to take one variable, a NSString and it won't need to return anything so make it void. The method should look something like this:
 
 ```objective-c
 
 	- (void)presentIncomingCallScreen:(NSString *)username {
 	}
 ```
-Now we're going to add in the logic. The functionality required will be to present the IncomingCall screen, set the view controllers delegate, present the view controller itself and then set the nameOfFriendLabel. Go ahead and try this yourself, the storyboard name is Main and the view controller we want to present's identifier is incomingCall. If you had some trouble here's the code we came up with!
+Now we're going to add in the logic. The functionality required will be to present the IncomingCall screen, set the view controllers delegate, present the view controller itself, and then set the nameOfFriendLabel. Go ahead and try this yourself. The storyboard name is Main and the view controller we want to present identifier is incomingCall. If you had some trouble, here's the code we came up with:
 
 ```objective-c
 
@@ -802,14 +812,15 @@ Now we're going to add in the logic. The functionality required will be to prese
     _theIncomingCallScreen.nameLabel.text = username;
 ```
 
-Now we’ve only got to implement the delegate methods to either accept or decline an incoming call. Head over to incomingCall.m and find the answer and decline methods. In the respective methods add these two calls to self.delegate.
+Now we’ve only got to implement the delegate methods to either accept or decline an incoming call. Head over to incomingCall.m and find the answer and decline methods. In the respective methods, add these two calls to self.delegate.
+
 ```objective-c
 
 	[self.delegate answerCall];
 	[self.delegate declineCall];
 ```
 
-Of course we haven’t yet implemented our protocol and delegate so we need to do that in our incomingCall.h file.
+Of course we haven’t yet implemented our protocol and delegate, so we need to do that in our incomingCall.h file.
 ```objective-c
 
 	@protocol IncomingCallDelegate <NSObject>
@@ -818,13 +829,14 @@ Of course we haven’t yet implemented our protocol and delegate so we need to d
 	@end
 ```
 
-Now add the delegate property to match the protocol in the @interface section of incomingCall.h
+Now, add the delegate property to match the protocol in the @interface section of incomingCall.h
+
 ```objective-c
 
 	@property (nonatomic, weak) id<IncomingCallDelegate> delegate;
 ```
 
-We now need to make newFriends conform to the protocol, once again modify the @interface in newFriends.h.
+We now need to make newFriends conform to the protocol. Once again, modify the @interface in newFriends.h.
 ```objective-c
 
 	@interface newFriends : UITableViewController <UITableViewDataSource, 			UITableViewDelegate, MCBrowserViewControllerDelegate, MCSessionDelegate, 			SINCallClientDelegate, SINCallDelegate, callScreenDelegate, IncomingCallDelegate>
@@ -846,22 +858,22 @@ Now navigate to the .h file and implement both the answer and decline methods.
     		[_theIncomingCallScreen dismissViewControllerAnimated:YES completion:nil];
 	}
 ```	
-Once again we’ve done all this before so if you have any trouble working out what’s going on the best idea is to head back all look over past explanations. 
+We’ve done all this before, so if you have any trouble working out what’s going on, the best idea is to head back and look over past explanations. 
 
 That’s all for now folks!
 
-As a rough guide here's some functionality you could add to this app
+As a rough guide, here's some functionality you could add to this app:
 
 * Add an instant messaging option using Sinch
 * Make modifications to the user interface
 * Add some profile pictures to the user objects on Parse 
 * Have messages automatically save themselves to Parse
-* Persist data on the iOS Device
-* Add facebook login using Parse
+* Persist data on the iOS device
+* Add Facebook login using Parse
 * Configure push notifications so calls can be received at any time
 	
 There’s an endless list of things that you can add to this project and I encourage you to experiment with the project.
 
-Sinch is an excellent framework and with their wide range of excellend SDKs and APIs you can do anything with their products. If you've got any questions or would like to get in contact with me you can contact me on [twitter](www.twitter.com/brownzac1) or [Christian Jensen](www.twitter.com/cjsinch) who's Sinch's Developer Evangelist. We look foward to hearing from you!
+Sinch is an excellent framework and with its wide range of excellent SDKs and APIs, you can do anything. If you have any questions or would like to get in contact, reach out on Twitter to [me](www.twitter.com/brownzac1) or [Christian Jensen](www.twitter.com/cjsinch), Sinch's Developer Evangelist. We look forward to hearing from you!
 
-If you've got any ideas for upcoming tutorials we would love to hear them!
+And as always, if you have any ideas for upcoming tutorials, give us a shout.

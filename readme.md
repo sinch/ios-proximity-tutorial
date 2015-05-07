@@ -150,7 +150,8 @@ Now we will add some methods that are very similar to what we added in the login
         return NO;
     	}
 	}
-	@end```
+	@end
+```
 
 It’s good practice to run the code in the iOS simulator after each new feature has been added to ensure you don’t have any bugs in the code. It’s much easier to track them after you’ve added each new feature rather than try to track them when you've finished an entire project.
 

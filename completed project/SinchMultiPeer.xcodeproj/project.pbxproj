@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7731DB0B1AE9A5B2007E7EBA /* libPods-SinchMultiPeer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7731DB0A1AE9A5B2007E7EBA /* libPods-SinchMultiPeer.a */; };
 		B03178481ACFAD33007E255B /* incomingCall.m in Sources */ = {isa = PBXBuildFile; fileRef = B03178471ACFAD33007E255B /* incomingCall.m */; };
+		B03225CA1AF9E550003A1289 /* answer_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B03225C81AF9E550003A1289 /* answer_button.png */; };
+		B03225CB1AF9E550003A1289 /* hangup.png in Resources */ = {isa = PBXBuildFile; fileRef = B03225C91AF9E550003A1289 /* hangup.png */; };
 		B05EC1A11ACD4062009D7223 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05EC1A01ACD4062009D7223 /* AVFoundation.framework */; };
 		B076A96D1ACA054000E568A0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B076A96C1ACA054000E568A0 /* AudioToolbox.framework */; };
 		B076A96F1ACA054700E568A0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B076A96E1ACA054700E568A0 /* CFNetwork.framework */; };
@@ -48,6 +50,8 @@
 		7731DB0A1AE9A5B2007E7EBA /* libPods-SinchMultiPeer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SinchMultiPeer.a"; path = "Pods/../build/Debug-iphoneos/libPods-SinchMultiPeer.a"; sourceTree = "<group>"; };
 		B03178461ACFAD33007E255B /* incomingCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = incomingCall.h; sourceTree = "<group>"; };
 		B03178471ACFAD33007E255B /* incomingCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = incomingCall.m; sourceTree = "<group>"; };
+		B03225C81AF9E550003A1289 /* answer_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = answer_button.png; sourceTree = "<group>"; };
+		B03225C91AF9E550003A1289 /* hangup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hangup.png; sourceTree = "<group>"; };
 		B05EC1A01ACD4062009D7223 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B076A96C1ACA054000E568A0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B076A96E1ACA054700E568A0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -168,6 +172,8 @@
 		B0AE573A1AC931300013E36A /* SinchMultiPeer */ = {
 			isa = PBXGroup;
 			children = (
+				B03225C81AF9E550003A1289 /* answer_button.png */,
+				B03225C91AF9E550003A1289 /* hangup.png */,
 				B07FA7761ACBE32400AEC2DE /* callScreen.h */,
 				B07FA7771ACBE32400AEC2DE /* callScreen.m */,
 				B076A9881ACA505C00E568A0 /* loginViewController.h */,
@@ -304,7 +310,9 @@
 			files = (
 				B0AE57471AC931300013E36A /* Main.storyboard in Resources */,
 				B0AE574C1AC931300013E36A /* LaunchScreen.xib in Resources */,
+				B03225CB1AF9E550003A1289 /* hangup.png in Resources */,
 				B0AE57491AC931300013E36A /* Images.xcassets in Resources */,
+				B03225CA1AF9E550003A1289 /* answer_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,9 +466,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SinchMultiPeer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f2111b63-62e7-44c2-b953-2485e696c75f";
 			};
 			name = Debug;
 		};
@@ -475,9 +485,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SinchMultiPeer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f2111b63-62e7-44c2-b953-2485e696c75f";
 			};
 			name = Release;
 		};

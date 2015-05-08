@@ -16,7 +16,11 @@ Just for some quick insight, here’s the basic concepts behind the multi-peer c
 
 To get started, download the starter project from the GitHub repository, which contains all the storyboards and view controllers to complete this tutorial. Along the way, you may be required to add a few classes, though. We've connected all the views and buttons to their respective methods within the code to simplify this tutorial. Once you’ve opened the starter project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the [iOS SDK](https://parse.com/downloads/ios/parse-library/latest), and use the quick-start guide to acquire your App ID and Client ID. Once you have those, take note of them and head over to the Xcode project. 
 
-Please note that this project's storyboards are made to suit an iPhone 5S, however size classes can be added to make it a universal application. We recommend using the iPhone 5S simulator to avoid unnecessary display issues. 
+When testing this you might have trouble finding other devices or attempting to connect to other devices, this mainly occurs when trying to connect through bluetooth. The reason for this is that the AirDrop security settings on one of the devices doesn't allow every device to connect. If you're having trouble swipe up on your iOS device, select airdrop and then select 'Everyone'. This will allow any other device to connect to yours via AirDrop, be sure to change the settings once you're done testing. If it still isn't working make sure both of the device's bluetooth is set to on or they're connected to the same Wi-Fi network!
+
+![image](/images/airdrop.jpg)
+
+
 
 
 There are two methods of adding Parse and Sinch to our project: We can either import them as frameworks or use CocoaPods. For many reasons, CocoaPods is best, mainly because of version compatibility. If you're unaware of how to use CocoaPods, head over to the [CocoaPods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a Podfile, edit that Podfile and add two pods. The two pods will be Sinch and Parse. The finished Podfile should look like this:
@@ -810,6 +814,7 @@ Now we're going to add in the logic. The functionality required will be to prese
     _theIncomingCallScreen = (incomingCall *)[storyboard instantiateViewControllerWithIdentifier:@"incomingCall"];
     _theIncomingCallScreen.delegate = self;
     [self presentViewController:_theIncomingCallScreen animated:YES completion:nil];
+    
     _theIncomingCallScreen.nameLabel.text = username;
 ```
 

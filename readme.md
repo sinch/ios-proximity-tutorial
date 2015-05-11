@@ -877,6 +877,6 @@ As a rough guide, here's some functionality you could add to this app:
 	
 There’s an endless list of things that you can add to this project and I encourage you to experiment with the project.
 
-Sinch is an excellent framework and with its wide range of excellent SDKs and APIs, you can do anything. If you have any questions or would like to get in contact, reach out on Twitter to [me](www.twitter.com/brownzac1) or [Christian Jensen](www.twitter.com/cjsinch), Sinch's Developer Evangelist. We look forward to hearing from you!
+Sinch is an excellent framework and with its wide range of excellent SDKs and APIs, you can do anything. If you have any questions or would like to get in contact, reach out on Twitter to [me](https://www.twitter.com/brownzac1) or [Christian Jensen](https://www.twitter.com/cjsinch), Sinch's Developer Evangelist. We look forward to hearing from you!
 
 And as always, if you have any ideas for upcoming tutorials, give us a shout.

@@ -6,17 +6,17 @@ Sinch is the easiest way to integrate real-time instant messaging and voice comm
 
 Today we will be working on a project to integrate Sinch into an iOS application. This will let users connect with other users nearby using Apple’s multi-peer connectivity framework; once a connection has been made, either user will be able to call the other. We will achieve this by exchanging userIds once a connection is established between two devices. This application will also use Parse as a means of managing users, logins, and storage of some basic data.
 
-Check out are a few screenshots of what we will be building.
+Check out a few screenshots of what we will be building.
 
 ![overview screens](images/overview.jpg)
 
-To complete this tutorial, you will need some basic Objective-C language knowledge. It's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
+To complete this tutorial, you will need some basic Objective-C language knowledge. It's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial. You can also download the whole GitHub repo at [https://github.com/sinch/ios-proximity-tutorial/](https://github.com/sinch/ios-proximity-tutorial/).
 
 Just for some quick insight, here’s the basic concepts behind the multi-peer connectivity framework. This framework uses pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apple’s AirDrop platform is presumably built on none other than the multi-peer framework.
 
 To get started, download the starter project from the GitHub repository, which contains all the storyboards and view controllers to complete this tutorial. Along the way, you may be required to add a few classes, though. We've connected all the views and buttons to their respective methods within the code to simplify this tutorial. Once you’ve opened the starter project in Xcode, navigate to www.parse.com. You will need to sign up for a free account, create a project, download the [iOS SDK](https://parse.com/downloads/ios/parse-library/latest), and use the quick-start guide to acquire your App ID and Client ID. Once you have those, take note of them and head over to the Xcode project. 
 
-When testing this you might have trouble finding other devices or attempting to connect to other devices, this mainly occurs when trying to connect through bluetooth. The reason for this is that the AirDrop security settings on one of the devices doesn't allow every device to connect. If you're having trouble swipe up on your iOS device, select airdrop and then select 'Everyone'. This will allow any other device to connect to yours via AirDrop, be sure to change the settings once you're done testing. If it still isn't working make sure both of the device's bluetooth is set to on or they're connected to the same Wi-Fi network!
+When testing this you might have trouble finding other devices or attempting to connect to other devices, this mainly occurs when trying to connect through bluetooth. The reason for this is that the AirDrop security settings on one of the devices doesn't allow every device to connect. If you're having trouble, swipe up on your iOS device, select AirDrop, and then select 'Everyone.' This will allow any other device to connect to yours via AirDrop, be sure to change the settings once you're done testing. If it still isn't working, make sure both of the devices' Bluetooth is set to "on" or they're connected to the same Wi-Fi network.
 
 ![airdrop](images/airdrop.png)
 
@@ -37,7 +37,7 @@ After you've finished editing the Podfile, be sure to save it and use the cd com
 If you do go down the road of adding the files by importing the frameworks, when you add Sinch to the project you will need to make some modifications to the linker tags. Check out the other guides on [Sinch](www.sinch.com) to get the full instructions on how to go about this.
 
 ##Setting up Parse
-You will now need to add some local frameworks in Xcode to ensure the Parse framework has the resources to work properly. In the left hand column of Xcode, navigate to the project settings and at the bottom of the page you will find a section labeled “Linked Frameworks and Libraries.” Click the “+” symbol and add these frameworks:	
+You will now need to add some local frameworks in Xcode to ensure the Parse framework has the resources to work properly. In the left-hand column of Xcode, navigate to the project settings and at the bottom of the page you will find a section labeled “Linked Frameworks and Libraries.” Click the “+” symbol and add these frameworks:	
 
 * AudioToolbox.framework
 * CFNetwork.framework
@@ -67,7 +67,7 @@ That will import the framework and now you will be able to use it in the Appdele
 [Parse setApplicationId:@"YOUR-PARSE-APP-ID" clientKey:@"PARSE-CLIENT-KEY"];
 ```
 
-This code simply initializes Parse with your specific application IDs and makes a connection between the Parse backend and the iOS client. Make sure they’re correct or else you’re going to have some trouble. The didFinishLaunchingWithOptions method is your first and best chance at initializing these third-party frameworks and doesn't rely on view controllers being presented, which is why we've chose to place it here. You will need to add your own App ID and client key that you took note of earlier into the code above. 
+This code simply initializes Parse with your specific application IDs and makes a connection between the Parse backend and the iOS client. Make sure they’re correct or else you’re going to have some trouble. The didFinishLaunchingWithOptions method is your first and best chance at initializing these third-party frameworks and doesn't rely on view controllers being presented, which is why we've chosen to place it here. You will need to add your own App ID and client key that you took note of earlier into the code above. 
 
 Now, navigate to loginViewController.m, where we will get to work implementing our Parse login. Once again, import the Parse framework into the file; in every file you wish to use Parse, you're going to have to #import the framework. Add the following code to the login method already in place (the IBAction method is already connected to the login button) to allow your users to log in. Don’t worry, we will make a sign up screen next.
 

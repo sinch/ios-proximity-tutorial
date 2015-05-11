@@ -119,8 +119,8 @@
 
 - (void)setupSinch {
     NSLog(@"Username = %@", _username);
-    _client = [Sinch clientWithApplicationKey:@"49ca8785-7f32-418c-8cb7-e978d457af6a"
-                            applicationSecret:@"5KslmfyjP06A5/p7nk5m6w=="
+    _client = [Sinch clientWithApplicationKey:@""
+                            applicationSecret:@""
                               environmentHost:@"sandbox.sinch.com"
                                        userId:_username];
     _client.callClient.delegate = self;

@@ -18,10 +18,7 @@ To get started, download the starter project from the GitHub repository, which c
 
 When testing this you might have trouble finding other devices or attempting to connect to other devices, this mainly occurs when trying to connect through bluetooth. The reason for this is that the AirDrop security settings on one of the devices doesn't allow every device to connect. If you're having trouble swipe up on your iOS device, select airdrop and then select 'Everyone'. This will allow any other device to connect to yours via AirDrop, be sure to change the settings once you're done testing. If it still isn't working make sure both of the device's bluetooth is set to on or they're connected to the same Wi-Fi network!
 
-![image](/images/airdrop.jpg)
-
-
-
+![airdrop](images/airdrop.png)
 
 There are two methods of adding Parse and Sinch to our project: We can either import them as frameworks or use CocoaPods. For many reasons, CocoaPods is best, mainly because of version compatibility. If you're unaware of how to use CocoaPods, head over to the [CocoaPods](https://guides.cocoapods.org/using/getting-started.html) site and follow the guides. Once you've worked out how to make a Podfile, edit that Podfile and add two pods. The two pods will be Sinch and Parse. The finished Podfile should look like this:
 

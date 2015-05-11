@@ -2,7 +2,7 @@
 
 Thanks to [Zac Brown](https://twitter.com/brownzac1) for writing this tutorial.
 
-[Sinch](http://www.sinch.com) is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android, and Web applications. Not only does it allow app-to-app communications, but gives the option to send text messages and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform (iOS, Android, and Web) or the Sinch API. Sinch is also now fully compatible with 64-bit architecture on iOS.
+Sinch is the easiest way to integrate real-time instant messaging and voice communication into your iOS, Android, and Web applications. Not only does it allow app-to-app communications, but gives the option to send text messages and make voice calls from within an application to cellular networks. Sinch can easily be added to your project using the SDK for your platform (iOS, Android, and Web) or the Sinch API. Sinch is also now fully compatible with 64-bit architecture on iOS.
 
 Today we will be working on a project to integrate Sinch into an iOS application. This will let users connect with other users nearby using Apple’s multi-peer connectivity framework; once a connection has been made, either user will be able to call the other. We will achieve this by exchanging userIds once a connection is established between two devices. This application will also use Parse as a means of managing users, logins, and storage of some basic data.
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B01CB89C1B00D54600B490DF /* answer_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B01CB89A1B00D54600B490DF /* answer_button.png */; };
+		B01CB89D1B00D54600B490DF /* hangup.png in Resources */ = {isa = PBXBuildFile; fileRef = B01CB89B1B00D54600B490DF /* hangup.png */; };
 		B03178481ACFAD33007E255B /* incomingCall.m in Sources */ = {isa = PBXBuildFile; fileRef = B03178471ACFAD33007E255B /* incomingCall.m */; };
 		B05EC1A11ACD4062009D7223 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05EC1A01ACD4062009D7223 /* AVFoundation.framework */; };
 		B076A9681ACA04C800E568A0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B076A9651ACA04C800E568A0 /* Bolts.framework */; };
@@ -48,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B01CB89A1B00D54600B490DF /* answer_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = answer_button.png; sourceTree = "<group>"; };
+		B01CB89B1B00D54600B490DF /* hangup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hangup.png; sourceTree = "<group>"; };
 		B03178461ACFAD33007E255B /* incomingCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = incomingCall.h; sourceTree = "<group>"; };
 		B03178471ACFAD33007E255B /* incomingCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = incomingCall.m; sourceTree = "<group>"; };
 		B05EC1A01ACD4062009D7223 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -181,6 +185,8 @@
 				B0AE573F1AC931300013E36A /* AppDelegate.h */,
 				B0AE57401AC931300013E36A /* AppDelegate.m */,
 				B0AE57451AC931300013E36A /* Main.storyboard */,
+				B01CB89A1B00D54600B490DF /* answer_button.png */,
+				B01CB89B1B00D54600B490DF /* hangup.png */,
 				B03178461ACFAD33007E255B /* incomingCall.h */,
 				B03178471ACFAD33007E255B /* incomingCall.m */,
 				B0AE57481AC931300013E36A /* Images.xcassets */,
@@ -298,7 +304,9 @@
 			files = (
 				B0AE57471AC931300013E36A /* Main.storyboard in Resources */,
 				B0AE574C1AC931300013E36A /* LaunchScreen.xib in Resources */,
+				B01CB89D1B00D54600B490DF /* hangup.png in Resources */,
 				B0AE57491AC931300013E36A /* Images.xcassets in Resources */,
+				B01CB89C1B00D54600B490DF /* answer_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

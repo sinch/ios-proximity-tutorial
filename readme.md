@@ -10,7 +10,7 @@ Check out are a few screenshots of what we will be building.
 
 ![overview screens](images/overview.jpg)
 
-To complete this tutorial, you will need some basic Objective-C language knowledge. It's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial.
+To complete this tutorial, you will need some basic Objective-C language knowledge. It's very in-depth and we hope that beginners and intermediate developers are all able to complete this tutorial. You can also download the whole GitHub repo at [https://github.com/sinch/ios-proximity-tutorial/](https://github.com/sinch/ios-proximity-tutorial/edit/master/readme.md).
 
 Just for some quick insight, here’s the basic concepts behind the multi-peer connectivity framework. This framework uses pre-existing Wi-Fi networks and bluetooth to connect one iOS device to another. The platform itself has provisions for the transfer of various file types and also has the ability to stream data from one device to another. Apple’s AirDrop platform is presumably built on none other than the multi-peer framework.
 

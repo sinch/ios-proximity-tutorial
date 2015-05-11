@@ -6,7 +6,7 @@ Sinch is the easiest way to integrate real-time instant messaging and voice comm
 
 Today we will be working on a project to integrate Sinch into an iOS application. This will let users connect with other users nearby using Apple’s multi-peer connectivity framework; once a connection has been made, either user will be able to call the other. We will achieve this by exchanging userIds once a connection is established between two devices. This application will also use Parse as a means of managing users, logins, and storage of some basic data.
 
-Check out are a few screenshots of what we will be building.
+Check out a few screenshots of what we will be building.
 
 ![overview screens](images/overview.jpg)
 
